@@ -32,7 +32,7 @@ void SpriteRenderer::DrawSprite(Camera* camera, GLfloat H, GLfloat W, Texture2D 
 
 	this->shader.SetMatrix4("model", model);
 	this->shader.SetVector3f("lightColor", 1.0f, 1.0f, 1.0f);
-	this->shader.SetVector3f("lightPos", -2.5, 1.0, -1.5);
+	this->shader.SetVector3f("lightPos", -2.5, 0.0, -1.5);
 	this->shader.SetVector3f("viewPos", camera->Position);
 	this->shader.SetInteger("material.specular", 1);
 	this->shader.SetInteger("material.normal", 2);

@@ -53,15 +53,12 @@ int main(int argc, char *argv[])
 	
 	// Initialize game
 	Breakout.Init();
-
 	// DeltaTime variables
 	GLfloat deltaTime = 0.0f;
 	GLfloat lastFrame = 0.0f;
 
 	// Start Game within Menu State
-	Breakout.State = GAME_ACTIVE;
-
-
+	Breakout.State = GAME_ROOM1;
 	while (!glfwWindowShouldClose(window))
 	{
 		// Calculate delta time
@@ -75,10 +72,13 @@ int main(int argc, char *argv[])
 		Breakout.ProcessInput(deltaTime);
 		Breakout.ProcessMouseMovement(deltaTime);
 		
-
 		// Update Game state
 		Breakout.Update(deltaTime);
-
+		if (Breakout.State == END)
+		{
+			glfwTerminate();
+			return 0;
+		}
 		// Render
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);

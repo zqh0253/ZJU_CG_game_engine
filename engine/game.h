@@ -8,9 +8,9 @@
 
 // Represents the current state of the game
 enum GameState {
-	GAME_ACTIVE,
-	GAME_MENU,
-	GAME_WIN
+	GAME_ROOM1,
+	GAME_ROOM2,
+	END
 };
 
 // Game holds all game-related state and functionality.
@@ -37,6 +37,8 @@ public:
 	void ProcessScrollMovement(GLfloat yoffset);
 	void Update(GLfloat dt);
 	void Render();
+//private:
+	std::vector<GLfloat*> trigger_square;
 };
 
 #endif

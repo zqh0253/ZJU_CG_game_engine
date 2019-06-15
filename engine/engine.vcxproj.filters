@@ -36,6 +36,12 @@
     <ClCompile Include="model_renderer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="LightRenderer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="square_renderer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -68,6 +74,12 @@
     <ClInclude Include="model_renderer.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="LightRenderer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="square_renderer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\sprite.fs">
@@ -80,6 +92,12 @@
       <Filter>源文件</Filter>
     </None>
     <None Include="shader\lamp.fs">
+      <Filter>源文件</Filter>
+    </None>
+    <None Include="shader\light.fs">
+      <Filter>源文件</Filter>
+    </None>
+    <None Include="shader\light.vs">
       <Filter>源文件</Filter>
     </None>
   </ItemGroup>

@@ -1,21 +1,29 @@
 
 #include <vector>
+#include <assert.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include "game.h"
 #include "camera.h"
 #include "resource_manager.h"
 #include "sprite_renderer.h"
 #include "model_renderer.h"
+#include "LightRenderer.h"
+#include "square_renderer.h"
 
 std::vector<GLchar*> tex_color;
 std::vector<GLchar*> tex_spec;
 std::vector<GLchar*> tex_norm, tex_high;
 std::vector<SpriteRenderer*>  Renderer;
 std::vector<ModelRenderer*> Model_renders;
-
+std::vector<glm::vec3> Model_place;
+std::vector<glm::vec3> Model_size;
+std::vector<LightRenderer*> Light_renders;
+std::vector<square_renderer*> square_render;
 
 Game::Game(GLuint width, GLuint height)
-	: State(GAME_ACTIVE), Keys(), Width(width), Height(height), firstMouse(true)
+	: State(GAME_ROOM1), Keys(), Width(width), Height(height), firstMouse(true)
 {
 
 }
@@ -27,6 +35,19 @@ Game::~Game()
 
 void Game::Init()
 {
+	//set trigger_square
+	static GLfloat square1[12] = {
+		-0.9, 0.0, -3.5, 
+		0.9 , 0.0, -3.5,
+		0.9, 2.2, -3.5,
+		-0.9, 2.2, -3.5
+	};
+	this->trigger_square.push_back((GLfloat*)square1);
+	static GLfloat square2[12] = {
+
+	};
+	this->trigger_square.push_back((GLfloat*)square2);
+
 	GLfloat far_wall_vertices[] = {
 		// positions          // normals           // texture coords
 		//far
@@ -142,15 +163,123 @@ void Game::Init()
 	ResourceManager::LoadTexture("obj/Wood Floor_007_SD/Wood_Floor_007_ROUGH.jpg", GL_TRUE, "floor_high");
 
 	Model_renders.push_back (new ModelRenderer(ResourceManager::GetShader("lamp"),"obj/td2/td2.obj"));
-	
+	Model_place.push_back(glm::vec3(-2.5, -4.0, -1.5));
+	Model_size.push_back(glm::vec3(2.0, 2.0, 2.0));
+	Model_renders.push_back(new ModelRenderer(ResourceManager::GetShader("lamp"), "obj/xk/xk.obj"));
+	Model_place.push_back(glm::vec3(0.0, 0.0, -3.8));
+	Model_size.push_back(glm::vec3(1.5, 1.5, 1.5));
+
+	float light_vertices[] = {
+		-0.5f, -0.5f, -0.5f,
+		0.5f, -0.5f, -0.5f,
+		0.5f,  0.5f, -0.5f,
+		0.5f,  0.5f, -0.5f,
+		-0.5f,  0.5f, -0.5f,
+		-0.5f, -0.5f, -0.5f,
+
+		-0.5f, -0.5f,  0.5f,
+		0.5f, -0.5f,  0.5f,
+		0.5f,  0.5f,  0.5f,
+		0.5f,  0.5f,  0.5f,
+		-0.5f,  0.5f,  0.5f,
+		-0.5f, -0.5f,  0.5f,
+
+		-0.5f,  0.5f,  0.5f,
+		-0.5f,  0.5f, -0.5f,
+		-0.5f, -0.5f, -0.5f,
+		-0.5f, -0.5f, -0.5f,
+		-0.5f, -0.5f,  0.5f,
+		-0.5f,  0.5f,  0.5f,
+
+		0.5f,  0.5f,  0.5f,
+		0.5f,  0.5f, -0.5f,
+		0.5f, -0.5f, -0.5f,
+		0.5f, -0.5f, -0.5f,
+		0.5f, -0.5f,  0.5f,
+		0.5f,  0.5f,  0.5f,
+
+		-0.5f, -0.5f, -0.5f,
+		0.5f, -0.5f, -0.5f,
+		0.5f, -0.5f,  0.5f,
+		0.5f, -0.5f,  0.5f,
+		-0.5f, -0.5f,  0.5f,
+		-0.5f, -0.5f, -0.5f,
+
+		-0.5f,  0.5f, -0.5f,
+		0.5f,  0.5f, -0.5f,
+		0.5f,  0.5f,  0.5f,
+		0.5f,  0.5f,  0.5f,
+		-0.5f,  0.5f,  0.5f,
+		-0.5f,  0.5f, -0.5f,
+	};
+
+	ResourceManager::LoadShader("shader/light.vs", "shader/light.fs", nullptr, "light");
+	Light_renders.push_back(new LightRenderer(ResourceManager::GetShader("light"), light_vertices));
+
+	GLfloat x = 0.9f, y = -0.0f , z =-3.5f , w = -0.9f ,v = 2.2f;
+	GLfloat square[] = {
+		x,y,z,
+		w,y,z,
+		w,v,z,
+		x,y,z,
+		x,v,z,
+		w,v,z
+	};
+	ResourceManager::LoadShader("shader/light.vs", "shader/light.fs", nullptr, "square");
+	square_render.push_back(new square_renderer(ResourceManager::GetShader("square"), square));
+
 	glEnable(GL_DEPTH_TEST);
+}
+
+GLint check(GLfloat* square, Camera* camera) {
+	glm::vec3 pos = camera->Position;
+	glm::vec3 front = camera->Front;
+	glm::vec3 vert[4];
+	for (int i = 0; i < 4; i++) {
+		vert[i] = glm::vec3(*(square + 3 * i + 0), *(square + 3 * i + 1), *(square + 3 * i + 2));
+	}
+	assert(vert[0].x + vert[2].x == vert[1].x + vert[3].x);
+	assert(vert[0].y + vert[2].y == vert[1].y + vert[3].y);
+	assert(vert[0].z + vert[2].z == vert[1].z + vert[3].z);
+	glm::mat3 vertM = transpose(glm::make_mat3x3((const GLfloat*)vert));
+	glm::mat3 inv_vertM = inverse(vertM);
+	/*
+	for (int i = 0; i < 3; i++)
+		for (int j = 0; j < 3; j++)
+			printf("%f ", inv_vertM[i][j]);
+	printf("\n");
+	glm::mat3 plane = inv_vertM * glm::mat3(1.0f);
+	for (int i = 0; i < 3; i++)
+		for (int j = 0; j < 3; j++)
+			printf("%f ", plane[i][j]);
+	printf("\n");
+	*/
+	glm::vec3 plane = inv_vertM * glm::vec3(1.0, 1.0, 1.0);
+	GLfloat k = (1 - plane[0] * pos[0] - plane[1] * pos[1] - plane[2] * pos[2]) / (plane[0] * front[0] + plane[1] * front[1] + plane[2] * front[2]);
+	glm::vec3 new_pos = pos + k * front;
+	
+	glm::vec3 flag = cross(new_pos - vert[3], new_pos - vert[0]);
+	for (int i = 0; i < 3; i++) {
+		GLfloat dotres = dot(flag, cross(new_pos - vert[i], new_pos - vert[i + 1]));
+		if (dotres < 0) {
+			return 0;
+		}
+	}
+	return 1;
 }
 
 void Game::Update(GLfloat dt)
 {
+	static GLfloat stare_count = 0;
+	if (check(this->trigger_square[this->State], this->camera)) {
+		stare_count += dt;
+		if (stare_count > 5.0) {
+			this->State = END;
+		}
+	}
+	else stare_count = 0.0;
 
 }
-
 
 void Game::ProcessInput(GLfloat dt)
 {
@@ -202,7 +331,19 @@ void Game::Render()
 	(*si)->DrawSprite(this->camera, this->Height, this->Width, ResourceManager::GetTexture(*tci), ResourceManager::GetTexture(*tsi), ResourceManager::GetTexture(*tni), ResourceManager::GetTexture(*thi),glm::vec3(0,0,0), glm::vec3(1,1,1), 45.0f, glm::vec3(0.0f, 1.0f, 0.0f));
 	
 	std::vector<ModelRenderer*>::iterator mi;
-	for (mi = Model_renders.begin(); mi != Model_renders.cend(); mi++)
-		(*mi)->Draw(this->camera, this->Height, this->Width, glm::vec3(-2.5, -4.0, -1.5), glm::vec3(2.0, 2.0, 2.0), 0.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+	std::vector<glm::vec3>::iterator mpi, msi;
+	for (mi = Model_renders.begin(),
+		 mpi = Model_place.begin(),
+		 msi = Model_size.begin(); mi != Model_renders.cend(); mi++, mpi++, msi++)
+		(*mi)->Draw(this->camera, this->Height, this->Width, *mpi, *msi, 0.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+
+	std::vector<LightRenderer*>::iterator li;
+	for (li = Light_renders.begin(); li != Light_renders.cend(); li++)
+		(*li)->Draw(this->camera, this->Height, this->Width, glm::vec3(-2.5, 0.0, -1.5));
+
+	std::vector<square_renderer*>::iterator sqi;
+	for (sqi = square_render.begin(); sqi != square_render.cend(); sqi++)
+		(*sqi)->Draw(this->camera, this->Height, this->Width);
+
 }
 
