@@ -9,12 +9,13 @@
 #include "texture.h"
 #include "shader.h"
 #include "camera.h"
+#include "model.h"
 
 class ModelRenderer
 {
 public:
 	// Constructor (inits shaders/shapes)
-	ModelRenderer(Shader shader);
+	ModelRenderer(Shader shader, const char* path);
 	// Destructor
 	~ModelRenderer();
 	// Renders a defined quad textured with given sprite
@@ -23,6 +24,7 @@ private:
 	// Render state
 	Shader shader;
 	GLuint quadVAO;
+	//Model model;
 	// Initializes 
 	void initRenderData();
 };

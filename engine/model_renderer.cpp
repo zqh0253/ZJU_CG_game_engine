@@ -1,10 +1,10 @@
 
 #include "model_renderer.h"
 
-ModelRenderer::ModelRenderer(Shader shader)
+ModelRenderer::ModelRenderer(Shader shader, const char * path)
+//model(path)
 {
 	this->shader = shader;
-	this->initRenderData();
 }
 
 ModelRenderer::~ModelRenderer()
@@ -32,18 +32,11 @@ void ModelRenderer::Draw(Camera* camera, GLfloat H, GLfloat W, glm::vec3 positio
 	this->shader.SetVector3f("lightColor", 1.0f, 1.0f, 1.0f);
 	this->shader.SetVector3f("lightPos", 0.0f, 3.0f, 0.0f);
 	this->shader.SetVector3f("viewPos", camera->Position);
-	this->shader.SetInteger("material.specular", 1);
-	this->shader.SetInteger("material.normal", 2);
-	this->shader.SetInteger("material.high", 3);
-	
 
+	//this->model.Draw(this->shader);
 }
 
 void ModelRenderer::initRenderData()
 {
 
-}
-
-void ModelRenderer::initRenderData()
-{
 }

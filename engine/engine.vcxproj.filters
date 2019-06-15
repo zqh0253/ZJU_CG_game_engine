@@ -76,5 +76,11 @@
     <None Include="shader\sprite.vs">
       <Filter>源文件</Filter>
     </None>
+    <None Include="shader\lamp.vs">
+      <Filter>源文件</Filter>
+    </None>
+    <None Include="shader\lamp.fs">
+      <Filter>源文件</Filter>
+    </None>
   </ItemGroup>
 </Project>

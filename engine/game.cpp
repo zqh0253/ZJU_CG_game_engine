@@ -5,11 +5,14 @@
 #include "camera.h"
 #include "resource_manager.h"
 #include "sprite_renderer.h"
+#include "model_renderer.h"
 
 std::vector<GLchar*> tex_color;
 std::vector<GLchar*> tex_spec;
 std::vector<GLchar*> tex_norm, tex_high;
 std::vector<SpriteRenderer*>  Renderer;
+std::vector<ModelRenderer*> Model_renders;
+
 
 Game::Game(GLuint width, GLuint height)
 	: State(GAME_ACTIVE), Keys(), Width(width), Height(height), firstMouse(true)
@@ -82,6 +85,7 @@ void Game::Init()
 
 	// Load shaders
 	ResourceManager::LoadShader("shader/sprite.vs", "shader/sprite.fs", nullptr, "sprite");
+	ResourceManager::LoadShader("shader/lamp.vs", "shader/lamp.fs", nullptr, "lamp");
 	// Set render-specific controls
 
 	Renderer.push_back(new SpriteRenderer(ResourceManager::GetShader("sprite"), far_wall_vertices, 6 * 8));
@@ -137,6 +141,8 @@ void Game::Init()
 	ResourceManager::LoadTexture("obj/Wood Floor_007_SD/Wood_Floor_007_NORM.jpg", GL_TRUE, "floor_norm");
 	ResourceManager::LoadTexture("obj/Wood Floor_007_SD/Wood_Floor_007_ROUGH.jpg", GL_TRUE, "floor_high");
 
+	Model_renders.push_back (new ModelRenderer(ResourceManager::GetShader("lamp"),"obj/td2/td2.obj"));
+	
 	glEnable(GL_DEPTH_TEST);
 }
 
@@ -181,10 +187,10 @@ void Game::ProcessScrollMovement(GLfloat yoffset) {
 
 void Game::Render()
 {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	std::vector<SpriteRenderer*>::iterator si;
 	std::vector<GLchar*>::iterator tci, tsi, tni, thi;
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	for (si = Renderer.begin(),
 		 tci = tex_color.begin(),
 		 tsi = tex_spec.begin(),
@@ -194,5 +200,9 @@ void Game::Render()
 		 si++,tci++,tsi++,tni++,thi++
 		)
 	(*si)->DrawSprite(this->camera, this->Height, this->Width, ResourceManager::GetTexture(*tci), ResourceManager::GetTexture(*tsi), ResourceManager::GetTexture(*tni), ResourceManager::GetTexture(*thi),glm::vec3(0,0,0), glm::vec3(1,1,1), 45.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+	
+	std::vector<ModelRenderer*>::iterator mi;
+	for (mi = Model_renders.begin(); mi != Model_renders.cend(); mi++)
+		(*mi)->Draw(this->camera, this->Height, this->Width, glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), 45.0f, glm::vec3(0.0f, 1.0f, 0.0f));
 }
 

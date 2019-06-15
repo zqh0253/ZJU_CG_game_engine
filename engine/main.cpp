@@ -4,7 +4,6 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include "sprite_renderer.h"
 #include "game.h"
 #include "resource_manager.h"
 
@@ -51,13 +50,7 @@ int main(int argc, char *argv[])
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-	/*
-	// OpenGL configuration
 	
-	glEnable(GL_CULL_FACE);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	*/
 	// Initialize game
 	Breakout.Init();
 

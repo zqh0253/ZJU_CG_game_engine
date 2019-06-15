@@ -142,6 +142,8 @@
     <ClInclude Include="texture.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="shader\lamp.fs" />
+    <None Include="shader\lamp.vs" />
     <None Include="shader\sprite.fs" />
     <None Include="shader\sprite.vs" />
   </ItemGroup>
