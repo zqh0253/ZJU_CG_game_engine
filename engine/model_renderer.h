@@ -24,7 +24,7 @@ private:
 	// Render state
 	Shader shader;
 	GLuint quadVAO;
-	//Model model;
+	Model model;
 	// Initializes 
 	void initRenderData();
 };

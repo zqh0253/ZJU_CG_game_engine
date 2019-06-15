@@ -1,27 +1,2 @@
-﻿  game.cpp
-d:\work\cs\cg\project\engine\engine\game.cpp(176): warning C4244: “初始化”: 从“GLdouble”转换到“float”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(177): warning C4244: “初始化”: 从“GLdouble”转换到“float”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(202): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(206): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
-  正在生成代码...
-  正在编译...
-  model_renderer.cpp
-  正在生成代码...
-  正在跳过...(未检测到相关更改)
-  main.cpp
-LINK : warning LNK4098: 默认库“LIBCMT”与其他库的使用冲突；请使用 /NODEFAULTLIB:library
-sprite_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewActiveTexture
-sprite_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewBindBuffer
-sprite_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewBufferData
-sprite_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewGenBuffers
-sprite_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewEnableVertexAttribArray
-sprite_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewVertexAttribPointer
-sprite_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewBindVertexArray
-sprite_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewDeleteVertexArrays
-sprite_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewGenVertexArrays
-glew32s.lib(glew.obj) : warning LNK4099: 未找到 PDB“vc120.pdb”(使用“glew32s.lib(glew.obj)”或在“D:\work\cs\cg\project\engine\Debug\vc120.pdb”中寻找)；正在链接对象，如同没有调试信息一样
-SOIL.lib(image_DXT.obj) : warning LNK4099: 未找到 PDB“SOIL.pdb”(使用“SOIL.lib(image_DXT.obj)”或在“D:\work\cs\cg\project\engine\Debug\SOIL.pdb”中寻找)；正在链接对象，如同没有调试信息一样
-SOIL.lib(image_helper.obj) : warning LNK4099: 未找到 PDB“SOIL.pdb”(使用“SOIL.lib(image_helper.obj)”或在“D:\work\cs\cg\project\engine\Debug\SOIL.pdb”中寻找)；正在链接对象，如同没有调试信息一样
-SOIL.lib(SOIL.obj) : warning LNK4099: 未找到 PDB“SOIL.pdb”(使用“SOIL.lib(SOIL.obj)”或在“D:\work\cs\cg\project\engine\Debug\SOIL.pdb”中寻找)；正在链接对象，如同没有调试信息一样
-SOIL.lib(stb_image_aug.obj) : warning LNK4099: 未找到 PDB“SOIL.pdb”(使用“SOIL.lib(stb_image_aug.obj)”或在“D:\work\cs\cg\project\engine\Debug\SOIL.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+﻿  sprite_renderer.cpp
   engine.vcxproj -> D:\work\cs\cg\project\engine\Debug\engine.exe
