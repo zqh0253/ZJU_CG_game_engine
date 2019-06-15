@@ -1,0 +1,5 @@
+﻿  game.cpp
+d:\work\cs\cg\project\engine\engine\game.cpp(180): warning C4244: “初始化”: 从“GLdouble”转换到“float”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(181): warning C4244: “初始化”: 从“GLdouble”转换到“float”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(206): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
+  engine.vcxproj -> D:\work\cs\cg\project\engine\Debug\engine.exe

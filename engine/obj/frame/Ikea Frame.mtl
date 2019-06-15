@@ -1,0 +1,54 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 26.03.2017 15:52:21
+
+newmtl Frame
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0196 0.0196 0.0196
+	Kd 0.0196 0.0196 0.0196
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\Kadirhan Osman 3D Models\3DsMax\Frame (Cerceve)\Textures\Frame.png
+	map_Kd D:\Kadirhan Osman 3D Models\3DsMax\Frame (Cerceve)\Textures\Frame.png
+
+newmtl Glass
+	Ns 0.0000
+	Ni 1.5000
+	d 0.1000
+	Tr 0.9000
+	Tf 0.1000 0.1000 0.1000 
+	illum 2
+	Ka 1.0000 0.9961 0.9961
+	Kd 1.0000 0.9961 0.9961
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+
+newmtl White
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+
+newmtl Photo
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\Kadirhan Osman 3D Models\3DsMax\Frame (Cerceve)\Textures\Image.JPG
+	map_Kd D:\Kadirhan Osman 3D Models\3DsMax\Frame (Cerceve)\Textures\Image.JPG
