@@ -7,7 +7,7 @@
 - [ ] 丰富一下room1的室内布局（包括墙壁贴图的美化）
 - [ ] room2实现
   - [ ] 半透明窗户透过可以看到天空盒
-  - [ ] 人物模型和家具的装载
+  - [x] 人物模型和家具的装载
   - [ ] 儿童眼睛的设置
 - [ ] room3实现 **主要把技术点放在这一块，逐层上升**
   - [ ] 水波
@@ -22,7 +22,11 @@
 
 ### texture
 
+[color & spec & norm & ... textures. Rather fewer choices.](https://3dtextures.me/category/)
+
 [bare color texture. Large collections. No spec/norm/... textures](https://www.textures.com/)
+
+[I found my skybox here.](http://www.humus.name)
 
 ### models
 

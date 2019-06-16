@@ -14,9 +14,11 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
 // The Width of the screen
-const GLuint SCREEN_WIDTH = 800;
+const GLuint SCREEN_WIDTH = 1280;
 // The height of the screen
-const GLuint SCREEN_HEIGHT = 600;
+const GLuint SCREEN_HEIGHT = 720;
+
+GLfloat deltaTime = 0.0f;
 
 Game Breakout(SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -53,14 +55,15 @@ int main(int argc, char *argv[])
 	
 	// Initialize game
 	Breakout.Init();
+
 	// DeltaTime variables
-	GLfloat deltaTime = 0.0f;
-	GLfloat lastFrame = 0.0f;
+	deltaTime = 0.0f;
+	GLfloat lastFrame = glfwGetTime();
 
 	// Start Game within Menu State
-	Breakout.State = GAME_ROOM1;
 	while (!glfwWindowShouldClose(window))
 	{
+
 		// Calculate delta time
 		GLfloat currentFrame = glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
@@ -70,7 +73,6 @@ int main(int argc, char *argv[])
 		//deltaTime = 0.001f;
 		// Manage user input
 		Breakout.ProcessInput(deltaTime);
-		Breakout.ProcessMouseMovement(deltaTime);
 		
 		// Update Game state
 		Breakout.Update(deltaTime);
@@ -112,6 +114,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
 	Breakout.xpos = xpos;
 	Breakout.ypos = ypos;
+	Breakout.ProcessMouseMovement(deltaTime);
 }
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)

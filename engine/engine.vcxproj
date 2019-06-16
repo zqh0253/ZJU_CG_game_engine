@@ -129,6 +129,7 @@
     <ClCompile Include="post_processor.cpp" />
     <ClCompile Include="resource_manager.cpp" />
     <ClCompile Include="shader.cpp" />
+    <ClCompile Include="skybox_renderer.cpp" />
     <ClCompile Include="sprite_renderer.cpp" />
     <ClCompile Include="square_renderer.cpp" />
     <ClCompile Include="texture.cpp" />
@@ -144,6 +145,7 @@
     <ClInclude Include="post_processor.h" />
     <ClInclude Include="resource_manager.h" />
     <ClInclude Include="shader.h" />
+    <ClInclude Include="skybox_renderer.h" />
     <ClInclude Include="sprite_renderer.h" />
     <ClInclude Include="square_renderer.h" />
     <ClInclude Include="stb_image.h" />
@@ -158,6 +160,8 @@
     <None Include="shader\light.vs" />
     <None Include="shader\post.fs" />
     <None Include="shader\post.vs" />
+    <None Include="shader\sky.fs" />
+    <None Include="shader\sky.vs" />
     <None Include="shader\sprite.fs" />
     <None Include="shader\sprite.vs" />
   </ItemGroup>

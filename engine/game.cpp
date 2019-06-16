@@ -13,19 +13,23 @@
 #include "square_renderer.h"
 #include "post_processor.h"
 #include "bare_sprite_renderer.h"
-
-std::vector<GLchar*> tex_color;
-std::vector<GLchar*> tex_spec;
-std::vector<GLchar*> tex_norm, tex_high;
-std::vector<SpriteRenderer*>  Renderer;
-std::vector<ModelRenderer*> Model_renders;
-std::vector<glm::vec3> Model_place;
-std::vector<glm::vec3> Model_size;
+#include "skybox_renderer.h"
+std::vector<GLchar*> tex_color, tex_color2;
+std::vector<GLchar*> tex_spec, tex_spec2;
+std::vector<GLchar*> tex_norm, tex_high, tex_norm2, tex_high2;
+std::vector<SpriteRenderer*>  Renderer, Renderer2;
+std::vector<ModelRenderer*> Model_renders, Model_renders2;
+std::vector<glm::vec3> Model_place, Model_place2;
+std::vector<glm::vec3> Model_size, Model_size2;
+std::vector<GLfloat> Model_rotate, Model_rotate2;
 std::vector<LightRenderer*> Light_renders;
 std::vector<square_renderer*> square_render;
 
 std::vector<bare_sprite_renderer*> Bare_renders;
 std::vector<GLchar*> bare_tex_color;
+
+skybox_renderer* sky_renders;
+GLchar* tex_sky;
 
 Game::Game(GLuint width, GLuint height)
 	: State(GAME_ROOM1), Keys(), Width(width), Height(height), firstMouse(true), stare_count(0.0)
@@ -51,10 +55,15 @@ void Game::Init()
 	ResourceManager::LoadTexture("obj/Wood Floor_007_SD/Wood_Floor_007_DISP.png", GL_TRUE, "floor_spec");
 	ResourceManager::LoadTexture("obj/Wood Floor_007_SD/Wood_Floor_007_NORM.jpg", GL_TRUE, "floor_norm");
 	ResourceManager::LoadTexture("obj/Wood Floor_007_SD/Wood_Floor_007_ROUGH.jpg", GL_TRUE, "floor_high");
+	ResourceManager::LoadTexture("obj/room2floor/Wood_Floor_006_COLOR.jpg", GL_TRUE, "floor2");
+	ResourceManager::LoadTexture("obj/room2floor/Wood_Floor_006_DISP.png", GL_TRUE, "floor2_spec");
+	ResourceManager::LoadTexture("obj/room2floor/Wood_Floor_006_NORM.jpg", GL_TRUE, "floor2_norm");
+	ResourceManager::LoadTexture("obj/room2floor/Wood_Floor_006_ROUGH.jpg", GL_TRUE, "floor2_high");
 	ResourceManager::LoadTexture("obj/wallpaper.jpg", GL_TRUE, "wallpaper");
 	ResourceManager::LoadShader("shader/light.vs", "shader/light.fs", nullptr, "light");
 	ResourceManager::LoadShader("shader/light.vs", "shader/light.fs", nullptr, "square");
 	ResourceManager::LoadShader("shader/baresprite.vs", "shader/baresprite.fs", nullptr, "baresprite");
+	ResourceManager::LoadShader("shader/sky.vs", "shader/sky.fs", nullptr, "sky");
 
 	this->Effects = new PostProcessor(ResourceManager::LoadShader("shader/post.vs", "shader/post.fs", nullptr, "post"), this->Width, this->Height);
 	//set trigger_square
@@ -129,9 +138,65 @@ void Game::Init()
 		-4.0f,  4.0f, -4.0f,  0.0f,  1.0f,  0.0f,  0.0f,  2.0f
 	};
 
+	GLfloat far_bare_wall_vertices[] = {
+		// positions          // normals           // texture coords
+		//far
+		-4.0f, -4.0f, -4.0f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
+		4.0f, -4.0f, -4.0f,  0.0f,  0.0f, -1.0f,  3.0f,  0.0f,
+		4.0f,  4.0f, -4.0f,  0.0f,  0.0f, -1.0f,  3.0f,  1.0f,
+		4.0f,  4.0f, -4.0f,  0.0f,  0.0f, -1.0f,  3.0f,  1.0f,
+		-4.0f,  4.0f, -4.0f,  0.0f,  0.0f, -1.0f,  0.0f,  1.0f,
+		-4.0f, -4.0f, -4.0f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
+	};
+	GLfloat near_bare_wall_vertices[] = {
+		//near
+		-4.0f, -4.0f,  25.0f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
+		4.0f, -4.0f,  25.0f,  0.0f,  0.0f,  1.0f,  3.0f,  0.0f,
+		4.0f,  4.0f,  25.0f,  0.0f,  0.0f,  1.0f,  3.0f,  1.0f,
+		4.0f,  4.0f,  25.0f,  0.0f,  0.0f,  1.0f,  3.0f,  1.0f,
+		-4.0f,  4.0f,  25.0f,  0.0f,  0.0f,  1.0f,  0.0f,  1.0f,
+		-4.0f, -4.0f,  25.0f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
+	};
+	GLfloat left_bare_wall_vertices[] = {
+		//left
+		-4.0f,  4.0f,  25.0f, -1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+		-4.0f,  4.0f, -4.0f, -1.0f,  0.0f,  0.0f,  3.0f,  0.0f,
+		-4.0f, -4.0f, -4.0f, -1.0f,  0.0f,  0.0f,  3.0f,  1.0f,
+		-4.0f, -4.0f, -4.0f, -1.0f,  0.0f,  0.0f,  3.0f,  1.0f,
+		-4.0f, -4.0f,  25.0f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+		-4.0f,  4.0f,  25.0f, -1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+	};
+	GLfloat right_bare_wall_vertices[] = {
+		//right
+		4.0f,  4.0f,  25.0f,  1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+		4.0f,  4.0f, -4.0f,  1.0f,  0.0f,  0.0f,  4.0f,  0.0f,
+		4.0f, -4.0f, -4.0f,  1.0f,  0.0f,  0.0f,  4.0f,  1.0f,
+		4.0f, -4.0f, -4.0f,  1.0f,  0.0f,  0.0f,  4.0f,  1.0f,
+		4.0f, -4.0f,  25.0f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+		4.0f,  4.0f,  25.0f,  1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+	};
+	GLfloat down_bare_wall_vertices[] = {
+		//down
+		-4.0f, -4.0f, -4.0f,  0.0f, -1.0f,  0.0f,  0.0f,  3.0f,
+		4.0f, -4.0f, -4.0f,  0.0f, -1.0f,  0.0f,  6.0f,  3.0f,
+		4.0f, -4.0f,  25.0f,  0.0f, -1.0f,  0.0f,  6.0f,  0.0f,
+		4.0f, -4.0f,  25.0f,  0.0f, -1.0f,  0.0f,  6.0f,  0.0f,
+		-4.0f, -4.0f,  25.0f,  0.0f, -1.0f,  0.0f,  0.0f,  0.0f,
+		-4.0f, -4.0f, -4.0f,  0.0f, -1.0f,  0.0f,  0.0f,  3.0f,
+	};
+	GLfloat up_bare_wall_vertices[] = {
+		//up
+		-4.0f,  4.0f, -4.0f,  0.0f,  1.0f,  0.0f,  0.0f,  4.0f,
+		4.0f,  4.0f, -4.0f,  0.0f,  1.0f,  0.0f,  4.0f,  4.0f,
+		4.0f,  4.0f,  25.0f,  0.0f,  1.0f,  0.0f,  4.0f,  0.0f,
+		4.0f,  4.0f,  25.0f,  0.0f,  1.0f,  0.0f,  4.0f,  0.0f,
+		-4.0f,  4.0f,  25.0f,  0.0f,  1.0f,  0.0f,  0.0f,  0.0f,
+		-4.0f,  4.0f, -4.0f,  0.0f,  1.0f,  0.0f,  0.0f,  4.0f
+	};
+
 	// Load shaders
 	ResourceManager::LoadShader("shader/sprite.vs", "shader/sprite.fs", nullptr, "sprite");
-	ResourceManager::LoadShader("shader/lamp.vs", "shader/lamp.fs", nullptr, "lamp");
+	ResourceManager::LoadShader("shader/lamp.vs", "shader/lamp.fs", nullptr, "model");
 	// Set render-specific controls
 
 	Renderer.push_back(new SpriteRenderer(ResourceManager::GetShader("sprite"), far_wall_vertices, 6 * 8));
@@ -165,17 +230,19 @@ void Game::Init()
 	tex_norm.push_back((char*)"waywall_norm");
 	tex_high.push_back((char*)"waywall_high");
 
-	camera = new Camera(glm::vec3(0.0f, 0.0f, 3.0f));
+	camera = new Camera(glm::vec3(0.0, 0.0, 0.0));
 	// Configure shaders
 	glm::mat4 projection = glm::perspective(glm::radians(this->camera->Zoom), (float)this->Width / (float)this->Height, 0.1f, 100.0f);
 	glm::mat4 view = this->camera->GetViewMatrix();
 
-	Model_renders.push_back (new ModelRenderer(ResourceManager::GetShader("lamp"),"obj/td2/td2.obj"));
+	Model_renders.push_back (new ModelRenderer(ResourceManager::GetShader("model"),"obj/td2/td2.obj"));
 	Model_place.push_back(glm::vec3(-2.5, -4.0, -1.5));
 	Model_size.push_back(glm::vec3(2.0, 2.0, 2.0));
-	Model_renders.push_back(new ModelRenderer(ResourceManager::GetShader("lamp"), "obj/xk/xk.obj"));
+	Model_rotate.push_back(0.0);
+	Model_renders.push_back(new ModelRenderer(ResourceManager::GetShader("model"), "obj/xk/xk.obj"));
 	Model_place.push_back(glm::vec3(0.0, 0.0, -3.8));
 	Model_size.push_back(glm::vec3(1.5, 1.5, 1.5));
+	Model_rotate.push_back(0.0);
 
 	float light_vertices[] = {
 		-0.5f, -0.5f, -0.5f,
@@ -236,18 +303,126 @@ void Game::Init()
 	
 	square_render.push_back(new square_renderer(ResourceManager::GetShader("square"), square));
 
-	Bare_renders.push_back(new bare_sprite_renderer(ResourceManager::GetShader("baresprite"), far_wall_vertices, 6 * 8));
+	Bare_renders.push_back(new bare_sprite_renderer(ResourceManager::GetShader("baresprite"), far_bare_wall_vertices, 6 * 8));
 	bare_tex_color.push_back((char*)"wallpaper");
-	Bare_renders.push_back(new bare_sprite_renderer(ResourceManager::GetShader("baresprite"), near_wall_vertices, 6 * 8));
+	Bare_renders.push_back(new bare_sprite_renderer(ResourceManager::GetShader("baresprite"), near_bare_wall_vertices, 6 * 8));
 	bare_tex_color.push_back((char*)"wallpaper");
-	Bare_renders.push_back(new bare_sprite_renderer(ResourceManager::GetShader("baresprite"), left_wall_vertices, 6 * 8));
+	Bare_renders.push_back(new bare_sprite_renderer(ResourceManager::GetShader("baresprite"), left_bare_wall_vertices, 6 * 8));
 	bare_tex_color.push_back((char*)"wallpaper");
-	Bare_renders.push_back(new bare_sprite_renderer(ResourceManager::GetShader("baresprite"), right_wall_vertices, 6 * 8));
+	Bare_renders.push_back(new bare_sprite_renderer(ResourceManager::GetShader("baresprite"), right_bare_wall_vertices, 6 * 8));
 	bare_tex_color.push_back((char*)"wallpaper");
-	Bare_renders.push_back(new bare_sprite_renderer(ResourceManager::GetShader("baresprite"), up_wall_vertices, 6 * 8));
+	Bare_renders.push_back(new bare_sprite_renderer(ResourceManager::GetShader("baresprite"), up_bare_wall_vertices, 6 * 8));
 	bare_tex_color.push_back((char*)"wallpaper");
-	Bare_renders.push_back(new bare_sprite_renderer(ResourceManager::GetShader("baresprite"), down_wall_vertices, 6 * 8));
-	bare_tex_color.push_back((char*)"wallpaper");
+	Renderer2.push_back(new SpriteRenderer(ResourceManager::GetShader("sprite"), down_bare_wall_vertices, 6 * 8));
+	tex_color2.push_back((char*)"floor2");
+	tex_spec2.push_back((char*)"floor2_spec");
+	tex_norm2.push_back((char*)"floor2_norm");
+	tex_high2.push_back((char*)"floor2_high");
+
+	Model_renders2.push_back(new ModelRenderer(ResourceManager::GetShader("model"), "obj/room2_obj/dad/hm.obj"));
+	Model_place2.push_back(glm::vec3(-7.0, -3.6, 12.8));
+	Model_size2.push_back(glm::vec3(2.7, 2.7, 2.7));
+	Model_rotate2.push_back(40.0);
+	Model_renders2.push_back(new ModelRenderer(ResourceManager::GetShader("model"), "obj/room2_obj/mom_and_child/hm3.obj"));
+	Model_place2.push_back(glm::vec3(1.0, -2.3, 21.0));
+	Model_size2.push_back(glm::vec3(2.5, 2.5, 2.5));
+	Model_rotate2.push_back(180.0);
+	Model_renders2.push_back(new ModelRenderer(ResourceManager::GetShader("model"), "obj/room2_obj/door/door.obj"));
+	Model_place2.push_back(glm::vec3(6.8, -4.0, -3.8));
+	Model_size2.push_back(glm::vec3(3.0, 3.0, 3.0));
+	Model_rotate2.push_back(0.0);
+	Model_renders2.push_back(new ModelRenderer(ResourceManager::GetShader("model"), "obj/room2_obj/table/table.obj"));
+	Model_place2.push_back(glm::vec3(1.0, -4.0, 15.0));
+	Model_size2.push_back(glm::vec3(4.0, 4.0, 4.0));
+	Model_rotate2.push_back(0.0);
+	Model_renders2.push_back(new ModelRenderer(ResourceManager::GetShader("model"), "obj/room2_obj/sf/sf.obj"));
+	Model_place2.push_back(glm::vec3(1.0, -4.0, 22.0));
+	Model_size2.push_back(glm::vec3(4.0, 4.0, 4.0));
+	Model_rotate2.push_back(180.0);
+	Model_renders2.push_back(new ModelRenderer(ResourceManager::GetShader("model"), "obj/room2_obj/window/window.obj"));
+	Model_place2.push_back(glm::vec3(12.0, -1.0, 12.0));
+	Model_size2.push_back(glm::vec3(1.0, 1.0, 1.0));
+	Model_rotate2.push_back(90.0);
+	Model_renders2.push_back(new ModelRenderer(ResourceManager::GetShader("model"), "obj/room2_obj/tvdesk/dd.obj"));
+	Model_place2.push_back(glm::vec3(-0.8, -4.0, -1.8));
+	Model_size2.push_back(glm::vec3(3.0, 3.0, 3.0));
+	Model_rotate2.push_back(0.0);
+	Model_renders2.push_back(new ModelRenderer(ResourceManager::GetShader("model"), "obj/room2_obj/tv/tv.obj"));
+	Model_place2.push_back(glm::vec3(-0.8, -2.0, -1.8));
+	Model_size2.push_back(glm::vec3(3.0, 3.0, 3.0));
+	Model_rotate2.push_back(0.0);
+
+	//sky box
+	GLfloat skyboxVertices[] = {
+		// positions          
+		-1.0f,  1.0f, -1.0f,
+		-1.0f, -1.0f, -1.0f,
+		1.0f, -1.0f, -1.0f,
+		1.0f, -1.0f, -1.0f,
+		1.0f,  1.0f, -1.0f,
+		-1.0f,  1.0f, -1.0f,
+
+		-1.0f, -1.0f,  1.0f,
+		-1.0f, -1.0f, -1.0f,
+		-1.0f,  1.0f, -1.0f,
+		-1.0f,  1.0f, -1.0f,
+		-1.0f,  1.0f,  1.0f,
+		-1.0f, -1.0f,  1.0f,
+
+		1.0f, -1.0f, -1.0f,
+		1.0f, -1.0f,  1.0f,
+		1.0f,  1.0f,  1.0f,
+		1.0f,  1.0f,  1.0f,
+		1.0f,  1.0f, -1.0f,
+		1.0f, -1.0f, -1.0f,
+
+		-1.0f, -1.0f,  1.0f,
+		-1.0f,  1.0f,  1.0f,
+		1.0f,  1.0f,  1.0f,
+		1.0f,  1.0f,  1.0f,
+		1.0f, -1.0f,  1.0f,
+		-1.0f, -1.0f,  1.0f,
+
+		-1.0f,  1.0f, -1.0f,
+		1.0f,  1.0f, -1.0f,
+		1.0f,  1.0f,  1.0f,
+		1.0f,  1.0f,  1.0f,
+		-1.0f,  1.0f,  1.0f,
+		-1.0f,  1.0f, -1.0f,
+
+		-1.0f, -1.0f, -1.0f,
+		-1.0f, -1.0f,  1.0f,
+		1.0f, -1.0f, -1.0f,
+		1.0f, -1.0f, -1.0f,
+		-1.0f, -1.0f,  1.0f,
+		1.0f, -1.0f,  1.0f
+	};
+
+	sky_renders=(new skybox_renderer(ResourceManager::GetShader("sky"), skyboxVertices));
+
+#ifdef 	BOX1
+	std::vector <std::string> faces
+	{
+		"obj/skybox/1/right.jpg",
+		"obj/skybox/1/left.jpg",
+		"obj/skybox/1/top.jpg",
+		"obj/skybox/1/bottom.jpg",
+		"obj/skybox/1/front.jpg",
+		"obj/skybox/1/back.jpg"
+	};
+#else
+	std::vector <std::string> faces
+	{
+		"obj/skybox/2/posx.jpg",
+		"obj/skybox/2/negx.jpg",
+		"obj/skybox/2/posy.jpg",
+		"obj/skybox/2/negy.jpg",
+		"obj/skybox/2/posz.jpg",
+		"obj/skybox/2/negz.jpg"
+	};
+#endif
+	ResourceManager::LoadSkybox(faces, "sky");
+	tex_sky=(char*)"sky"; 
 
 	glEnable(GL_DEPTH_TEST);
 }
@@ -287,6 +462,8 @@ void Game::Update(GLfloat dt)
 		if (this->stare_count > 5.0) {
 			((int&)this->State)++;
 			this->stare_count = 0.0;
+			if (this->State == GAME_ROOM2)
+				this->camera->Position = glm::vec3(8.0,0.0,18.0);
 		}
 	}
 	else this->stare_count = 0.0;
@@ -346,10 +523,12 @@ void Game::Render()
 	
 		std::vector<ModelRenderer*>::iterator mi;
 		std::vector<glm::vec3>::iterator mpi, msi;
+		std::vector<GLfloat>::iterator mri;
 		for (mi = Model_renders.begin(),
 			 mpi = Model_place.begin(),
-			 msi = Model_size.begin(); mi != Model_renders.cend(); mi++, mpi++, msi++)
-			(*mi)->Draw(this->camera, this->Height, this->Width, *mpi, *msi, 0.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+			 msi = Model_size.begin(),
+			 mri = Model_rotate.begin(); mi != Model_renders.cend(); mi++, mpi++, msi++, mri++)
+			(*mi)->Draw(this->camera, this->Height, this->Width, *mpi, *msi, *mri, glm::vec3(0.0f, 1.0f, 0.0f));
 
 		std::vector<LightRenderer*>::iterator li;
 		for (li = Light_renders.begin(); li != Light_renders.cend(); li++)
@@ -358,6 +537,7 @@ void Game::Render()
 		std::vector<square_renderer*>::iterator sqi;
 		for (sqi = square_render.begin(); sqi != square_render.cend(); sqi++)
 			(*sqi)->Draw(this->camera, this->Height, this->Width);
+		sky_renders->Draw(this->camera, ResourceManager::GetSkybox("sky"), this->Height, this->Width);
 		break; }
 	case GAME_ROOM2: {
 		std::vector<bare_sprite_renderer*>::iterator bsi;
@@ -366,9 +546,30 @@ void Game::Render()
 			bci = bare_tex_color.begin();
 			bsi != Bare_renders.cend();
 			bsi++, bci++) {
-			(*bsi)->Draw(this->camera, this->Height, this->Width, ResourceManager::GetTexture(*bci), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), 0.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+			(*bsi)->Draw(this->camera, this->Height, this->Width, ResourceManager::GetTexture(*bci), glm::vec3(0, 0, 0), glm::vec3(3, 1, 1), 0.0f, glm::vec3(0.0f, 1.0f, 0.0f));
 		}
-		break;
+		std::vector<SpriteRenderer*>::iterator si;
+		std::vector<GLchar*>::iterator tci, tsi, tni, thi;
+		for (si = Renderer2.begin(),
+			tci = tex_color2.begin(),
+			tsi = tex_spec2.begin(),
+			tni = tex_norm2.begin(),
+			thi = tex_high2.begin();
+			si != Renderer2.cend();
+			si++, tci++, tsi++, tni++, thi++
+			)
+			(*si)->DrawSprite(this->camera, this->Height, this->Width, ResourceManager::GetTexture(*tci), ResourceManager::GetTexture(*tsi), ResourceManager::GetTexture(*tni), ResourceManager::GetTexture(*thi), glm::vec3(0, 0, 0), glm::vec3(3, 1, 1), 0.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+		std::vector<ModelRenderer*>::iterator mi;
+		std::vector<glm::vec3>::iterator mpi, msi;
+		std::vector<GLfloat>::iterator mri;
+		for (mi = Model_renders2.begin(),
+			 mpi = Model_place2.begin(),
+			 msi = Model_size2.begin(),
+			 mri = Model_rotate2.begin(); mi != Model_renders2.cend(); mi++, mpi++, msi++, mri++)
+			(*mi)->Draw(this->camera, this->Height, this->Width, *mpi, *msi, *mri, glm::vec3(0.0f, 1.0f, 0.0f));
+
+		sky_renders->Draw(this->camera, ResourceManager::GetSkybox("sky"), this->Height, this->Width);
+
 	}
 	default: {
 		break;

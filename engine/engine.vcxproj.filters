@@ -48,6 +48,9 @@
     <ClCompile Include="bare_sprite_renderer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="skybox_renderer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -92,6 +95,9 @@
     <ClInclude Include="bare_sprite_renderer.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="skybox_renderer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\sprite.fs">
@@ -120,5 +126,11 @@
     </None>
     <None Include="shader\baresprite.vs" />
     <None Include="shader\baresprite.fs" />
+    <None Include="shader\sky.fs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="shader\sky.vs">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
 </Project>
