@@ -29,10 +29,39 @@ void SpriteRenderer::DrawSprite(Camera* camera, GLfloat H, GLfloat W, Texture2D 
 	model = glm::rotate(model, rotate, glm::vec3(0.0f, 0.0f, 1.0f)); // Then rotate
 	
 	model = glm::scale(model, size); // Last scale
+	
+	this->shader.SetVector3f("dirLight.direction", -0.2f, -1.0f, -0.3f);
+	this->shader.SetVector3f("dirLight.ambient", 0.5f, 0.5f, 0.5f);
+	this->shader.SetVector3f("dirLight.diffuse", 0.4f, 0.4f, 0.4f);
+	this->shader.SetVector3f("dirLight.specular", 0.5f, 0.5f, 0.5f);
 
+	this->shader.SetVector3f("pointLights[0].position", -2.5, 0.0, -1.5);
+	this->shader.SetVector3f("pointLights[0].ambient", 0.5f, 0.5f, 0.5f);
+	this->shader.SetVector3f("pointLights[0].diffuse", 0.8f, 0.8f, 0.8f);
+	this->shader.SetVector3f("pointLights[0].specular", 1.0f, 1.0f, 1.0f);
+	this->shader.SetFloat("pointLights[0].constant", 1.0f);
+	this->shader.SetFloat("pointLights[0].linear", 0.09);
+	this->shader.SetFloat("pointLights[0].quadratic", 0.062);
+	this->shader.SetVector3f("pointLights[1].position", 2.5, 0.0, -1.5);
+	this->shader.SetVector3f("pointLights[1].ambient", 0.5f, 0.5f, 0.5f);
+	this->shader.SetVector3f("pointLights[1].diffuse", 0.8f, 0.8f, 0.8f);
+	this->shader.SetVector3f("pointLights[1].specular", 1.0f, 1.0f, 1.0f);
+	this->shader.SetFloat("pointLights[1].constant", 1.0f);
+	this->shader.SetFloat("pointLights[1].linear", 0.09);
+	this->shader.SetFloat("pointLights[1].quadratic", 0.062);
+	this->shader.SetVector3f("spotLight.position", camera->Position);
+	this->shader.SetVector3f("spotLight.direction", camera->Front);
+	this->shader.SetVector3f("spotLight.ambient", 0.0f, 0.0f, 0.0f);
+	this->shader.SetVector3f("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
+	this->shader.SetVector3f("spotLight.specular", 1.0f, 1.0f, 1.0f);
+	this->shader.SetFloat("spotLight.constant", 1.0f);
+	this->shader.SetFloat("spotLight.linear", 0.1);
+	this->shader.SetFloat("spotLight.quadratic", 0.0032);
+	this->shader.SetFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
+	this->shader.SetFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
+	this->shader.SetFloat("material.shininess", 32.0f);
 	this->shader.SetMatrix4("model", model);
-	this->shader.SetVector3f("lightColor", 1.0f, 1.0f, 1.0f);
-	this->shader.SetVector3f("lightPos", -2.5, 0.0, -1.5);
+	
 	this->shader.SetVector3f("viewPos", camera->Position);
 	this->shader.SetInteger("material.specular", 1);
 	this->shader.SetInteger("material.normal", 2);

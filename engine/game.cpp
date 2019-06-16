@@ -23,7 +23,7 @@ std::vector<glm::vec3> Model_place, Model_place2;
 std::vector<glm::vec3> Model_size, Model_size2;
 std::vector<GLfloat> Model_rotate, Model_rotate2;
 std::vector<LightRenderer*> Light_renders;
-std::vector<square_renderer*> square_render;
+std::vector<square_renderer*> square_render, square_render2;
 
 std::vector<bare_sprite_renderer*> Bare_renders;
 std::vector<GLchar*> bare_tex_color;
@@ -75,10 +75,10 @@ void Game::Init()
 	};
 	this->trigger_square.push_back((GLfloat*)square1);
 	static GLfloat square2[12] = {
-		-0.9, 0.0, -3.5,
-		0.9 , 0.0, -3.5,
-		0.9, 2.2, -3.5,
-		-0.9, 2.2, -3.5
+		1.0, -2.3, 21.0,
+		1.5 , -2.3, 21.0,
+		1.5, -2.2, 21.0,
+		1.0, -2.2, 21.0
 	};
 	this->trigger_square.push_back((GLfloat*)square2);
 
@@ -130,12 +130,12 @@ void Game::Init()
 	};
 	GLfloat up_wall_vertices[] = {
 		//up
-		-4.0f,  4.0f, -4.0f,  0.0f,  1.0f,  0.0f,  0.0f,  2.0f,
-		4.0f,  4.0f, -4.0f,  0.0f,  1.0f,  0.0f,  2.0f,  2.0f,
-		4.0f,  4.0f,  25.0f,  0.0f,  1.0f,  0.0f,  2.0f,  0.0f,
-		4.0f,  4.0f,  25.0f,  0.0f,  1.0f,  0.0f,  2.0f,  0.0f,
+		-4.0f,  4.0f, -4.0f,  0.0f,  1.0f,  0.0f,  0.0f,  5.0f,
+		4.0f,  4.0f, -4.0f,  0.0f,  1.0f,  0.0f,  1.5f,  5.0f,
+		4.0f,  4.0f,  25.0f,  0.0f,  1.0f,  0.0f,  1.5f,  0.0f,
+		4.0f,  4.0f,  25.0f,  0.0f,  1.0f,  0.0f,  1.5f,  0.0f,
 		-4.0f,  4.0f,  25.0f,  0.0f,  1.0f,  0.0f,  0.0f,  0.0f,
-		-4.0f,  4.0f, -4.0f,  0.0f,  1.0f,  0.0f,  0.0f,  2.0f
+		-4.0f,  4.0f, -4.0f,  0.0f,  1.0f,  0.0f,  0.0f,  5.0f
 	};
 
 	GLfloat far_bare_wall_vertices[] = {
@@ -230,13 +230,17 @@ void Game::Init()
 	tex_norm.push_back((char*)"waywall_norm");
 	tex_high.push_back((char*)"waywall_high");
 
-	camera = new Camera(glm::vec3(0.0, 0.0, 0.0));
+	camera = new Camera(glm::vec3(0.0, 0.0, 20.0));
 	// Configure shaders
 	glm::mat4 projection = glm::perspective(glm::radians(this->camera->Zoom), (float)this->Width / (float)this->Height, 0.1f, 100.0f);
 	glm::mat4 view = this->camera->GetViewMatrix();
 
-	Model_renders.push_back (new ModelRenderer(ResourceManager::GetShader("model"),"obj/td2/td2.obj"));
+	Model_renders.push_back(new ModelRenderer(ResourceManager::GetShader("model"), "obj/td2/td2.obj"));
 	Model_place.push_back(glm::vec3(-2.5, -4.0, -1.5));
+	Model_size.push_back(glm::vec3(2.0, 2.0, 2.0));
+	Model_rotate.push_back(0.0);
+	Model_renders.push_back(new ModelRenderer(ResourceManager::GetShader("model"), "obj/td2/td2.obj"));
+	Model_place.push_back(glm::vec3(2.5, -4.0, -1.5));
 	Model_size.push_back(glm::vec3(2.0, 2.0, 2.0));
 	Model_rotate.push_back(0.0);
 	Model_renders.push_back(new ModelRenderer(ResourceManager::GetShader("model"), "obj/xk/xk.obj"));
@@ -290,7 +294,7 @@ void Game::Init()
 
 
 	Light_renders.push_back(new LightRenderer(ResourceManager::GetShader("light"), light_vertices));
-
+	Light_renders.push_back(new LightRenderer(ResourceManager::GetShader("light"), light_vertices));
 	GLfloat x = 0.9f, y = -0.0f , z =-3.5f , w = -0.9f ,v = 2.2f;
 	GLfloat square[] = {
 		x,y,z,
@@ -300,8 +304,17 @@ void Game::Init()
 		x,v,z,
 		w,v,z
 	};
-	
 	square_render.push_back(new square_renderer(ResourceManager::GetShader("square"), square));
+	x = 0.9f; y = -0.23f; z = 20.8f; w = 0.4f; v = -0.33; 
+	GLfloat squaree[] = {
+			x,y,z,
+			w,y,z,
+			w,v,z,
+			x,y,z,
+			x,v,z,
+			w,v,z
+		};
+	square_render2.push_back(new square_renderer(ResourceManager::GetShader("square"), squaree));
 
 	Bare_renders.push_back(new bare_sprite_renderer(ResourceManager::GetShader("baresprite"), far_bare_wall_vertices, 6 * 8));
 	bare_tex_color.push_back((char*)"wallpaper");
@@ -532,14 +545,21 @@ void Game::Render()
 
 		std::vector<LightRenderer*>::iterator li;
 		for (li = Light_renders.begin(); li != Light_renders.cend(); li++)
-			(*li)->Draw(this->camera, this->Height, this->Width, glm::vec3(-2.5, 0.0, -1.5));
+			(*li)->Draw(this->camera, this->Height, this->Width, glm::vec3((li==Light_renders.begin())?-2.5:2.5, 0.0, -1.5));
 
+#ifdef SQUARE
 		std::vector<square_renderer*>::iterator sqi;
 		for (sqi = square_render.begin(); sqi != square_render.cend(); sqi++)
 			(*sqi)->Draw(this->camera, this->Height, this->Width);
+#endif 
 		sky_renders->Draw(this->camera, ResourceManager::GetSkybox("sky"), this->Height, this->Width);
 		break; }
 	case GAME_ROOM2: {
+#ifdef SQUARE
+		std::vector<square_renderer*>::iterator sqi;
+		for (sqi = square_render2.begin(); sqi != square_render2.cend(); sqi++)
+			(*sqi)->Draw(this->camera, this->Height, this->Width);
+#endif 
 		std::vector<bare_sprite_renderer*>::iterator bsi;
 		std::vector<GLchar*>::iterator bci;
 		for (bsi = Bare_renders.begin(),
