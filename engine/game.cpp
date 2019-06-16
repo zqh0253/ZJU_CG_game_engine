@@ -31,10 +31,22 @@ std::vector<GLchar*> bare_tex_color;
 skybox_renderer* sky_renders;
 GLchar* tex_sky;
 
+//feed in 3 vertices of a rectangle. 
+//return the coefficient of the rectangle's plane.
+glm::vec3 get_plane_coefficient(glm::vec3 vert[]) {
+	assert(vert[0].x + vert[2].x == vert[1].x + vert[3].x);
+	assert(vert[0].y + vert[2].y == vert[1].y + vert[3].y);
+	assert(vert[0].z + vert[2].z == vert[1].z + vert[3].z);
+	glm::mat3 vertM = transpose(glm::make_mat3x3((const GLfloat*)vert));
+	glm::mat3 inv_vertM = inverse(vertM);
+	glm::vec3 plane = inv_vertM * glm::vec3(1.0, 1.0, 1.0);
+	return plane;
+}
+
 Game::Game(GLuint width, GLuint height)
 	: State(GAME_ROOM1), Keys(), Width(width), Height(height), firstMouse(true), stare_count(0.0)
 {
-
+	
 }
 
 Game::~Game()
@@ -44,6 +56,8 @@ Game::~Game()
 
 void Game::Init()
 {
+	glm::vec3 vert[4];
+	vert[0] = glm::vec3();
 	ResourceManager::LoadTexture("obj/stonewall/Stone_02_COLOR.jpg", GL_TRUE, "stonewall");
 	ResourceManager::LoadTexture("obj/stonewall/Stone_02_SPEC.jpg", GL_TRUE, "stonewall_spec");
 	ResourceManager::LoadTexture("obj/stonewall/Stone_02_NRM.jpg", GL_TRUE, "stonewall_norm");
@@ -447,13 +461,7 @@ GLint check(GLfloat* square, Camera* camera) {
 	for (int i = 0; i < 4; i++) {
 		vert[i] = glm::vec3(*(square + 3 * i + 0), *(square + 3 * i + 1), *(square + 3 * i + 2));
 	}
-	assert(vert[0].x + vert[2].x == vert[1].x + vert[3].x);
-	assert(vert[0].y + vert[2].y == vert[1].y + vert[3].y);
-	assert(vert[0].z + vert[2].z == vert[1].z + vert[3].z);
-	glm::mat3 vertM = transpose(glm::make_mat3x3((const GLfloat*)vert));
-	glm::mat3 inv_vertM = inverse(vertM);
-	
-	glm::vec3 plane = inv_vertM * glm::vec3(1.0, 1.0, 1.0);
+	glm::vec3 plane = get_plane_coefficient(vert);
 	GLfloat k = (1 - plane[0] * pos[0] - plane[1] * pos[1] - plane[2] * pos[2]) / (plane[0] * front[0] + plane[1] * front[1] + plane[2] * front[2]);
 	if (k < 0.0) return 0;
 	glm::vec3 new_pos = pos + k * front;
@@ -482,9 +490,14 @@ void Game::Update(GLfloat dt)
 	else this->stare_count = 0.0;
 }
 
+GLint check_collision(glm::vec3 dot1, glm::vec3 dot2) {
+	return 0;
+}
+
 void Game::ProcessInput(GLfloat dt)
 {
 	//keyboard input
+	glm::vec3 prev_position = this->camera->Position;
 	if (this->Keys[GLFW_KEY_W] == GLFW_PRESS)
 		this->camera->ProcessKeyboard(FORWARD, dt);
 	if (this->Keys[GLFW_KEY_S] == GLFW_PRESS)
@@ -493,6 +506,8 @@ void Game::ProcessInput(GLfloat dt)
 		this->camera->ProcessKeyboard(LEFT, dt);
 	if (this->Keys[GLFW_KEY_D] == GLFW_PRESS)
 		this->camera->ProcessKeyboard(RIGHT, dt);
+	if (check_collision(prev_position, this->camera->Position))
+		this->camera->Position = prev_position;
 }
 
 void Game::ProcessMouseMovement(GLfloat dt) {

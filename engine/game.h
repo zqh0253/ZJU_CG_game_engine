@@ -40,7 +40,9 @@ public:
 	void Render();
 private:
 	std::vector<GLfloat*> trigger_square;
-//	std::map<GameState, GameState> next_state;
+	//I use (A,B,C) to present a plane Ax + By + Cz = 1.
+	std::vector<glm::vec3> planes[100]; 
+	//	std::map<GameState, GameState> next_state;
 	GLfloat stare_count;
 	PostProcessor* Effects;
 };

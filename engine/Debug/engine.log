@@ -4,17 +4,15 @@ d:\work\cs\cg\project\engine\engine\game.cpp(75): warning C4305: “初始化”
 d:\work\cs\cg\project\engine\engine\game.cpp(82): warning C4838: 从“double”转换到“GLfloat”需要收缩转换
 d:\work\cs\cg\project\engine\engine\game.cpp(82): warning C4305: “初始化”: 从“double”到“GLfloat”截断
 d:\work\cs\cg\project\engine\engine\game.cpp(308): warning C4305: “=”: 从“double”到“GLfloat”截断
-d:\work\cs\cg\project\engine\engine\game.cpp(506): warning C4244: “初始化”: 从“GLdouble”转换到“float”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(507): warning C4244: “初始化”: 从“GLdouble”转换到“float”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(535): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(544): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(548): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(553): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(555): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(561): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(569): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(581): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(589): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(591): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(599): warning C4244: “参数”: 从“double”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(525): warning C4244: “初始化”: 从“GLdouble”转换到“float”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(526): warning C4244: “初始化”: 从“GLdouble”转换到“float”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(554): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(563): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(567): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(574): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(588): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(600): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(608): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(610): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(618): warning C4244: “参数”: 从“double”转换到“GLfloat”，可能丢失数据
   engine.vcxproj -> D:\work\cs\cg\project\engine\Debug\engine.exe
