@@ -16,3 +16,14 @@
   - [ ] 粒子系统（水雾）
 - [ ] 在room3实现的时候，通过**后期处理`post procedure`**增加一些场景切换的特效。（类似加一些片段着色器的特效？）
 
+
+
+## Resources
+
+### texture
+
+[bare color texture. Large collections. No spec/norm/... textures](https://www.textures.com/)
+
+### models
+
+We get our models from `SIMS4`.

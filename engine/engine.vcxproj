@@ -121,10 +121,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bare_sprite_renderer.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="LightRenderer.cpp" />
     <ClCompile Include="model_renderer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="post_processor.cpp" />
     <ClCompile Include="resource_manager.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="sprite_renderer.cpp" />
@@ -132,12 +134,14 @@
     <ClCompile Include="texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bare_sprite_renderer.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="LightRenderer.h" />
     <ClInclude Include="model_renderer.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="model.h" />
+    <ClInclude Include="post_processor.h" />
     <ClInclude Include="resource_manager.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="sprite_renderer.h" />
@@ -146,10 +150,14 @@
     <ClInclude Include="texture.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="shader\baresprite.fs" />
+    <None Include="shader\baresprite.vs" />
     <None Include="shader\lamp.fs" />
     <None Include="shader\lamp.vs" />
     <None Include="shader\light.fs" />
     <None Include="shader\light.vs" />
+    <None Include="shader\post.fs" />
+    <None Include="shader\post.vs" />
     <None Include="shader\sprite.fs" />
     <None Include="shader\sprite.vs" />
   </ItemGroup>

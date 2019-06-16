@@ -42,6 +42,12 @@
     <ClCompile Include="square_renderer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="post_processor.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="bare_sprite_renderer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -80,6 +86,12 @@
     <ClInclude Include="square_renderer.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="post_processor.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="bare_sprite_renderer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\sprite.fs">
@@ -100,5 +112,13 @@
     <None Include="shader\light.vs">
       <Filter>源文件</Filter>
     </None>
+    <None Include="shader\post.vs">
+      <Filter>源文件</Filter>
+    </None>
+    <None Include="shader\post.fs">
+      <Filter>源文件</Filter>
+    </None>
+    <None Include="shader\baresprite.vs" />
+    <None Include="shader\baresprite.fs" />
   </ItemGroup>
 </Project>

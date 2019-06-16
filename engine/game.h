@@ -5,7 +5,8 @@
 #include <GL/glew.h>
 #include "camera.h"
 #include <GLFW/glfw3.h>
-
+#include <map>
+#include "post_processor.h"
 // Represents the current state of the game
 enum GameState {
 	GAME_ROOM1,
@@ -37,8 +38,11 @@ public:
 	void ProcessScrollMovement(GLfloat yoffset);
 	void Update(GLfloat dt);
 	void Render();
-//private:
+private:
 	std::vector<GLfloat*> trigger_square;
+//	std::map<GameState, GameState> next_state;
+	GLfloat stare_count;
+	PostProcessor* Effects;
 };
 
 #endif
