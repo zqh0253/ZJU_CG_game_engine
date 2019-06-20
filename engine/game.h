@@ -6,6 +6,7 @@
 #include "camera.h"
 #include <GLFW/glfw3.h>
 #include <map>
+#include "square_renderer.h"
 #include "post_processor.h"
 // Represents the current state of the game
 enum GameState {
@@ -32,20 +33,21 @@ public:
 	~Game();
 	// Initialize game state (load all shaders/textures/levels)
 	void Init();
+	void DrawCube(GLfloat, GLfloat, GLfloat, GLfloat, GLfloat, GLfloat, std::vector<square_renderer*>&, GLint state);
 	// GameLoop
 	void ProcessInput(GLfloat dt);
 	void ProcessMouseMovement(GLfloat dt);
 	void ProcessScrollMovement(GLfloat yoffset);
 	void Update(GLfloat dt);
 	void Render();
+	GLint check_collision(glm::vec3, glm::vec3);
 private:
 	std::vector<GLfloat*> trigger_square;
 	//I use (A,B,C) to present a plane Ax + By + Cz = 1.
-	std::vector<glm::vec3> planes[100]; 
+	std::vector<glm::mat4x3> planes[4];
 	//	std::map<GameState, GameState> next_state;
 	GLfloat stare_count;
 	PostProcessor* Effects;
 };
 
 #endif
-
