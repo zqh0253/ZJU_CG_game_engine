@@ -8,10 +8,15 @@
 #include <map>
 #include "square_renderer.h"
 #include "post_processor.h"
+
+#define MC_W 100
+#define MC_H 100
+
 // Represents the current state of the game
 enum GameState {
 	GAME_ROOM1,
 	GAME_ROOM2,
+	GAME_ROOM3,
 	END
 };
 
@@ -48,6 +53,7 @@ private:
 	//	std::map<GameState, GameState> next_state;
 	GLfloat stare_count;
 	PostProcessor* Effects;
+	GLfloat heightm[MC_W][MC_H];
 };
 
 #endif

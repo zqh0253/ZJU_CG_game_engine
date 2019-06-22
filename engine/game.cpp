@@ -13,7 +13,9 @@
 #include "post_processor.h"
 #include "bare_sprite_renderer.h"
 #include "skybox_renderer.h"
-//#define SQUARE
+#include "mc_grass_cube.h"
+
+#define SQUARE
 std::vector<GLchar*> tex_color, tex_color2;
 std::vector<GLchar*> tex_spec, tex_spec2;
 std::vector<GLchar*> tex_norm, tex_high, tex_norm2, tex_high2;
@@ -25,8 +27,8 @@ std::vector<GLfloat> Model_rotate, Model_rotate2;
 std::vector<LightRenderer*> Light_renders;
 std::vector<square_renderer*> square_render, square_render2;
 
-std::vector<bare_sprite_renderer*> Bare_renders;
-std::vector<GLchar*> bare_tex_color;
+std::vector<bare_sprite_renderer*> Bare_renders, mc_renders;
+std::vector<GLchar*> bare_tex_color, mc_tex_color;
 
 skybox_renderer* sky_renders;
 GLchar* tex_sky;
@@ -44,7 +46,7 @@ glm::vec3 get_plane_coefficient(glm::vec3 vert[]) {
 }
 
 Game::Game(GLuint width, GLuint height)
-	: State(GAME_ROOM1), Keys(), Width(width), Height(height), firstMouse(true), stare_count(0.0)
+	: State(GAME_ROOM3), Keys(), Width(width), Height(height), firstMouse(true), stare_count(0.0)
 {
 
 }
@@ -153,11 +155,68 @@ void Game::DrawCube(GLfloat xa, GLfloat xb, GLfloat ya, GLfloat yb, GLfloat za, 
 	planes[state].push_back(v6);
 	square_render.push_back(new square_renderer(ResourceManager::GetShader("square"), square6));
 }
+float persistence = 0.50;
+int Number_Of_Octaves = 4;
+
+double Noise(int x, int y)    // 根据(x,y)获取一个初步噪声值
+{
+	int n = x + y * 57;
+	n = (n << 13) ^ n;
+	return (1.0 - ((n * (n * n * 15731 + 789221) + 1376312589) & 0x7fffffff) / 1073741824.0);
+}
+
+double SmoothedNoise(int x, int y)   //光滑噪声
+{
+	double corners = (Noise(x - 1, y - 1) + Noise(x + 1, y - 1) + Noise(x - 1, y + 1) + Noise(x + 1, y + 1)) / 16;
+	double sides = (Noise(x - 1, y) + Noise(x + 1, y) + Noise(x, y - 1) + Noise(x, y + 1)) / 8;
+	double center = Noise(x, y) / 4;
+	return corners + sides + center;
+}
+double Cosine_Interpolate(double a, double b, double x)  // 余弦插值
+{
+	double ft = x * 3.1415927;
+	double f = (1 - cos(ft)) * 0.5;
+	return a * (1 - f) + b * f;
+}
+
+double InterpolatedNoise(float x, float y)   // 获取插值噪声
+{
+	int integer_X = int(x);
+	float  fractional_X = x - integer_X;
+	int integer_Y = int(y);
+	float fractional_Y = y - integer_Y;
+	double v1 = SmoothedNoise(integer_X, integer_Y);
+	double v2 = SmoothedNoise(integer_X + 1, integer_Y);
+	double v3 = SmoothedNoise(integer_X, integer_Y + 1);
+	double v4 = SmoothedNoise(integer_X + 1, integer_Y + 1);
+	double i1 = Cosine_Interpolate(v1, v2, fractional_X);
+	double i2 = Cosine_Interpolate(v3, v4, fractional_X);
+	return Cosine_Interpolate(i1, i2, fractional_Y);
+}
+
+double PerlinNoise(float x, float y)    // 最终调用：根据(x,y)获得其对应的PerlinNoise值
+{
+	double total = 0;
+	double p = persistence;
+	int n = Number_Of_Octaves;
+	for (int i = 0; i<n; i++)
+	{
+		double frequency = pow(2, i);
+		double amplitude = pow(p, i);
+		total = total + InterpolatedNoise(x * frequency, y * frequency) * amplitude;
+	}
+
+	return total;
+}
+
+mc_grass_cube cube;
 
 void Game::Init()
 {
+
 	glm::vec3 vert[4];
 	vert[0] = glm::vec3();
+	/*
 	ResourceManager::LoadTexture("obj/stonewall/Stone_02_COLOR.jpg", GL_TRUE, "stonewall");
 	ResourceManager::LoadTexture("obj/stonewall/Stone_02_SPEC.jpg", GL_TRUE, "stonewall_spec");
 	ResourceManager::LoadTexture("obj/stonewall/Stone_02_NRM.jpg", GL_TRUE, "stonewall_norm");
@@ -173,12 +232,13 @@ void Game::Init()
 	ResourceManager::LoadTexture("obj/room2floor/Wood_Floor_006_DISP.png", GL_TRUE, "floor2_spec");
 	ResourceManager::LoadTexture("obj/room2floor/Wood_Floor_006_NORM.jpg", GL_TRUE, "floor2_norm");
 	ResourceManager::LoadTexture("obj/room2floor/Wood_Floor_006_ROUGH.jpg", GL_TRUE, "floor2_high");
-	ResourceManager::LoadTexture("obj/wallpaper.jpg", GL_TRUE, "wallpaper");
+	ResourceManager::LoadTexture("obj/wallpaper.jpg", GL_TRUE, "wallpaper");*/
+	ResourceManager::LoadTexture("obj/mc/useful/DefaultPack2.png", GL_TRUE, "mc2");
 	ResourceManager::LoadShader("shader/light.vs", "shader/light.fs", nullptr, "light");
 	ResourceManager::LoadShader("shader/light.vs", "shader/light.fs", nullptr, "square");
 	ResourceManager::LoadShader("shader/baresprite.vs", "shader/baresprite.fs", nullptr, "baresprite");
 	ResourceManager::LoadShader("shader/sky.vs", "shader/sky.fs", nullptr, "sky");
-
+	
 	this->Effects = new PostProcessor(ResourceManager::LoadShader("shader/post.vs", "shader/post.fs", nullptr, "post"), this->Width, this->Height);
 	//set trigger_square
 	static GLfloat square1[12] = {
@@ -195,7 +255,7 @@ void Game::Init()
 		1.0, -2.2, 21.0
 	};
 	this->trigger_square.push_back((GLfloat*)square2);
-
+	this->trigger_square.push_back((GLfloat*)square2);
 	GLfloat far_wall_vertices[] = {
 		// positions          // normals           // texture coords
 		//far
@@ -447,7 +507,7 @@ void Game::Init()
 	};
 	square_render.push_back(new square_renderer(ResourceManager::GetShader("square"), square));
 	x = -3.1f, y = -4.0f, z = -0.95f, w = -1.9f, v = 0.00f;
-	DrawCube(-3.1, -1.9, -4.0, 0.1, -0.95, -2.05, square_render, 0);
+	/*DrawCube(-3.1, -1.9, -4.0, 0.1, -0.95, -2.05, square_render, 0);
 	DrawCube(1.9, 3.1, -4.0, 0.1, -0.95, -2.05, square_render, 0);
 	DrawCube(-3.85, 3.85, 3.85, -3.85, -3.85, 24.85, square_render, 0);
 
@@ -503,6 +563,8 @@ void Game::Init()
 	DrawCube(1.45, 1.85, -3.63, -4, -1.8, -1.4, square_render2, 1);
 
 	DrawCube(-11.85, 11.85, 3.85, -3.85, -3.85, 24.85, square_render2, 1);
+*/
+	DrawCube(1.0, -2.3, 21.0, 1.5, -2.2, 21.0, square_render2, 1);
 
 	x = 0.9f; y = -0.23f; z = 20.8f; w = 0.4f; v = -0.33;
 	GLfloat squaree[] = {
@@ -641,7 +703,15 @@ void Game::Init()
 #endif
 	ResourceManager::LoadSkybox(faces, "sky");
 	tex_sky = (char*)"sky";
-
+	/*
+	GLint i, j;
+	for (i = 1; i <= MC_W; i++)
+		for (j = 1; j <= MC_H; j++)
+		{
+			heightm[i][j] = PerlinNoise(i, j);
+			printf("%f\n", heightm[i][j]);
+		}*/
+	cube.initRenderData();
 	glEnable(GL_DEPTH_TEST);
 }
 
@@ -669,6 +739,8 @@ GLint check(GLfloat* square, Camera* camera) {
 
 void Game::Update(GLfloat dt)
 {
+	printf("%f\n", this->stare_count);
+		printf("%d ", this->State);
 	if (check(this->trigger_square[this->State], this->camera)) {
 		this->stare_count += dt;
 		if (this->stare_count > 5.0) {
@@ -839,7 +911,16 @@ void Game::Render()
 			(*mi)->Draw(this->camera, this->Height, this->Width, *mpi, *msi, *mri, glm::vec3(0.0f, 1.0f, 0.0f));
 
 		sky_renders->Draw(this->camera, ResourceManager::GetSkybox("sky"), this->Height, this->Width);
+		break;
+	}
+	case GAME_ROOM3: {
+		glm::vec3 pos = glm::vec3(0, 0, 0);
+		glm::vec3 siz = glm::vec3(1, 1, 1);
+		GLfloat rot = 0.0f;
+		cube.Draw(this->camera, this->Height, this->Width, pos, siz,rot);
 
+		sky_renders->Draw(this->camera, ResourceManager::GetSkybox("sky"), this->Height, this->Width);
+		break;
 	}
 	default: {
 		break;

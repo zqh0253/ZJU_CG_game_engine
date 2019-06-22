@@ -79,6 +79,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <AdditionalDependencies>D:\work\cs\cg\openGL\lib\glfw3.lib;D:\work\cs\cg\openGL\lib\freetyped.lib;D:\work\cs\cg\openGL\lib\assimpd.lib;D:\work\cs\cg\openGL\lib\glew32s.lib;D:\work\cs\cg\openGL\lib\SOIL.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -124,6 +125,7 @@
     <ClCompile Include="bare_sprite_renderer.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="LightRenderer.cpp" />
+    <ClCompile Include="mc_grass_cube.cpp" />
     <ClCompile Include="model_renderer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="post_processor.cpp" />
@@ -139,6 +141,7 @@
     <ClInclude Include="camera.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="LightRenderer.h" />
+    <ClInclude Include="mc_grass_cube.h" />
     <ClInclude Include="model_renderer.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="model.h" />

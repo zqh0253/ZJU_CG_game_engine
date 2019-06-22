@@ -34,3 +34,11 @@
 ### models
 
 We get our models from `SIMS4`.
+
+## web
+
+https://jayconrod.com/posts/34/water-simulation-in-glsl
+
+https://catlikecoding.com/unity/tutorials/flow/waves/
+
+https://80.lv/articles/tutorial-ocean-shader-with-gerstner-waves/

@@ -1,4 +1,6 @@
 #pragma once
+#ifndef _BARE_SPRITE_RENDERER_H
+#define _BARE_SPRITE_RENDERER_H
 
 #include <GL/glew.h>
 #include <glm/glm.hpp>
@@ -22,4 +24,6 @@ private:
 	const static GLint MAX_VERTICE_NUM;
 
 };
+
+#endif
 
