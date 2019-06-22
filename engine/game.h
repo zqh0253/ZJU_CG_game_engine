@@ -9,8 +9,8 @@
 #include "square_renderer.h"
 #include "post_processor.h"
 
-#define MC_W 100
-#define MC_H 100
+#define MC_W 11
+#define MC_H 11
 
 // Represents the current state of the game
 enum GameState {
@@ -53,7 +53,8 @@ private:
 	//	std::map<GameState, GameState> next_state;
 	GLfloat stare_count;
 	PostProcessor* Effects;
-	GLfloat heightm[MC_W][MC_H];
+	GLfloat heightm[MC_W +10][MC_H + 10];
+	void grab();
 };
 
 #endif

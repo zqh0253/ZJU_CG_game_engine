@@ -16,6 +16,8 @@
 #include "mc_grass_cube.h"
 
 #define SQUARE
+#define BMP_Header_Length 54
+#define  _CRT_SECURE_NO_WARNINGS 
 std::vector<GLchar*> tex_color, tex_color2;
 std::vector<GLchar*> tex_spec, tex_spec2;
 std::vector<GLchar*> tex_norm, tex_high, tex_norm2, tex_high2;
@@ -205,7 +207,7 @@ double PerlinNoise(float x, float y)    // 最终调用：根据(x,y)获得其对应的Perlin
 		double amplitude = pow(p, i);
 		total = total + InterpolatedNoise(x * frequency, y * frequency) * amplitude;
 	}
-
+	total = pow(total + 0.5, 0.55);
 	return total;
 }
 
@@ -703,14 +705,20 @@ void Game::Init()
 #endif
 	ResourceManager::LoadSkybox(faces, "sky");
 	tex_sky = (char*)"sky";
-	/*
-	GLint i, j;
+	
+	GLint i, j, terrace = 6;
 	for (i = 1; i <= MC_W; i++)
 		for (j = 1; j <= MC_H; j++)
-		{
-			heightm[i][j] = PerlinNoise(i, j);
+			if ((i % 2) ^ (j % 2))
+				heightm[i][j] = PerlinNoise(1 + 2 * i, 1 + 2 * j);
+	for (i = 1; i <= MC_W; i++)
+		for (j = 1; j <= MC_H; j++)
+			if (!((i % 2) ^ (j % 2)))
+				heightm[i][j] = (heightm[i - 1][j] + heightm[i + 1][j] + heightm[i][j + 1] + heightm[i][j - 1]) / 4;
+			
+	for (i = 1; i <= MC_H; i++)
+		for (j = 1; j <= MC_W; j++)
 			printf("%f\n", heightm[i][j]);
-		}*/
 	cube.initRenderData();
 	glEnable(GL_DEPTH_TEST);
 }
@@ -739,8 +747,6 @@ GLint check(GLfloat* square, Camera* camera) {
 
 void Game::Update(GLfloat dt)
 {
-	printf("%f\n", this->stare_count);
-		printf("%d ", this->State);
 	if (check(this->trigger_square[this->State], this->camera)) {
 		this->stare_count += dt;
 		if (this->stare_count > 5.0) {
@@ -796,6 +802,59 @@ GLint Game::check_collision(glm::vec3 dot1, glm::vec3 dot2)
 	return 0;
 }
 
+void Game::grab(void)
+{
+	FILE*    pDummyFile;  //指向另一bmp文件，用于复制它的文件头和信息头数据
+	FILE*    pWritingFile;  //指向要保存截图的bmp文件
+	GLubyte* pPixelData;    //指向新的空的内存，用于保存截图bmp文件数据
+	GLubyte  BMP_Header[BMP_Header_Length];
+	GLint    i, j;
+	GLint    PixelDataLength;   //BMP文件数据总长度
+
+								// 计算像素数据的实际长度
+	i = this->Width * 3;   // 得到每一行的像素数据长度
+	while (i % 4 != 0)      // 补充数据，直到i是的倍数
+		++i;
+	PixelDataLength = i * this->Height;  //补齐后的总位数
+
+										  // 分配内存和打开文件
+	pPixelData = (GLubyte*)malloc(PixelDataLength);
+	if (pPixelData == 0)
+		exit(0);
+
+	pDummyFile = fopen("screengrab/bitmap1.bmp", "rb");//只读形式打开
+	if (pDummyFile == 0)
+		exit(0);
+
+	pWritingFile = fopen("screengrab/grab.bmp", "wb"); //只写形式打开
+	if (pWritingFile == 0)
+		exit(0);
+
+	//把读入的bmp文件的文件头和信息头数据复制，并修改宽高数据
+	fread(BMP_Header, sizeof(BMP_Header), 1, pDummyFile);  //读取文件头和信息头，占据54字节
+	fwrite(BMP_Header, sizeof(BMP_Header), 1, pWritingFile);
+	fseek(pWritingFile, 0x0012, SEEK_SET); //移动到0X0012处，指向图像宽度所在内存
+	i = this->Width;
+	j = this->Height;
+	fwrite(&i, sizeof(i), 1, pWritingFile);
+	fwrite(&j, sizeof(j), 1, pWritingFile);
+
+	// 读取当前画板上图像的像素数据
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);  //设置4位对齐方式
+	glReadPixels(0, 0, this->Width, this->Height,
+		GL_BGR_EXT, GL_UNSIGNED_BYTE, pPixelData);
+
+	// 写入像素数据
+	fseek(pWritingFile, 0, SEEK_END);
+	//把完整的BMP文件数据写入pWritingFile
+	fwrite(pPixelData, PixelDataLength, 1, pWritingFile);
+
+	// 释放内存和关闭文件
+	fclose(pDummyFile);
+	fclose(pWritingFile);
+	free(pPixelData);
+}
+
 void Game::ProcessInput(GLfloat dt)
 {
 	//keyboard input
@@ -812,6 +871,10 @@ void Game::ProcessInput(GLfloat dt)
 	if (this->Keys[GLFW_KEY_D] == GLFW_PRESS) {
 		this->camera->ProcessKeyboard(RIGHT, dt);
 	}
+	if (this->Keys[GLFW_KEY_P] == GLFW_PRESS) {
+		grab();
+	}
+
 	if (check_collision(prev_position, this->camera->Position)) {
 		this->camera->Position = prev_position;
 	}
@@ -917,8 +980,18 @@ void Game::Render()
 		glm::vec3 pos = glm::vec3(0, 0, 0);
 		glm::vec3 siz = glm::vec3(1, 1, 1);
 		GLfloat rot = 0.0f;
-		cube.Draw(this->camera, this->Height, this->Width, pos, siz,rot);
-
+		GLint i, j, k;
+		for (i=1; i<=MC_H; i++)
+			for (j = 1; j <= MC_W; j++)
+			{
+				GLint h = GLint(5 * (heightm[i][j]));
+				for (k = 1; k <= h; k++)
+				{
+					pos = glm::vec3(i, k, j);
+					cube.Draw(this->camera, this->Height, this->Width, pos, siz, rot, k != h);
+				}
+			}
+		
 		sky_renders->Draw(this->camera, ResourceManager::GetSkybox("sky"), this->Height, this->Width);
 		break;
 	}
