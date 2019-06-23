@@ -98,6 +98,63 @@ GLfloat rightside2[] = {
 	1.0f, 0.0f,  1.0f, -1.0f,  0.0f,  0.0f,  3.0f / 16,  1.0f / 16,
 	1.0f,  1.0f,  1.0f, -1.0f,  0.0f,  0.0f,  3.0f / 16,  0.0f,
 };
+
+
+GLfloat farside3[] = {
+	// positions          // normals           // texture coords
+	//far
+	0.0f,  0.0f, 0.0f,  -1.0f,  0.0f, 0.0f,  7.0f / 16,  1.0f / 16,
+	0.0f,  1.0f, 0.0f,  -1.0f,  0.0f, 0.0f,  7.0f / 16,  0.0f,
+	1.0f,  0.0f, 0.0f,  -1.0f,  0.0f, 0.0f,  8.0f / 16,   1.0f / 16,
+	1.0f,  0.0f, 0.0f,  -1.0f,  0.0f, 0.0f,  8.0f / 16,   1.0f / 16,
+	0.0f,  1.0f, 0.0f,  -1.0f,  0.0f, 0.0f,  7.0f / 16,  0.0f,
+	1.0f,  1.0f, 0.0f,  -1.0f,  0.0f, 0.0f,  8.0f / 16,   0.0f,
+};
+GLfloat nearside3[] = {
+	//near
+	0.0f, 0.0f, 1.0f,  0.0f,  0.0f, -1.0f,  7.0f / 16,  1.0f / 16,
+	0.0f, 1.0f, 1.0f,  0.0f,  0.0f, -1.0f,  7.0f / 16,  0.0f,
+	1.0f,  0.0f, 1.0f,  0.0f,  0.0f, -1.0f,  8.0f / 16,  1.0f / 16,
+	1.0f,  0.0f, 1.0f,  0.0f,  0.0f, -1.0f,  8.0f / 16,  1.0f / 16,
+	0.0f,  1.0f, 1.0f,  0.0f,  0.0f, -1.0f,  7.0f / 16,  0.0f,
+	1.0f, 1.0f, 1.0f,  0.0f,  0.0f, -1.0f,  8.0f / 16, 0.0f,
+};
+GLfloat leftside3[] = {
+	//left
+	0.0f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,  7.0f / 16,  1.0f / 16,
+	0.0f,  0.0f, 1.0f, -1.0f,  0.0f,  0.0f,  8.0f / 16,  1.0f / 16,
+	0.0f, 1.0f,  0.0f, -1.0f,  0.0f,  0.0f,  7.0f / 16,  0.0f,
+	0.0f, 1.0f, 0.0f, -1.0f,  0.0f,  0.0f,  7.0f / 16,  0.0f,
+	0.0f, 0.0f,  1.0f, -1.0f,  0.0f,  0.0f,  8.0f / 16,  1.0f / 16,
+	0.0f,  1.0f,  1.0f, -1.0f,  0.0f,  0.0f,  8.0f / 16,  0.0f,
+};
+GLfloat rightside3[] = {
+	//right
+	1.0f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,  7.0f / 16,  1.0f / 16,
+	1.0f,  0.0f, 1.0f, -1.0f,  0.0f,  0.0f,  8.0f / 16,  1.0f / 16,
+	1.0f, 1.0f,  0.0f, -1.0f,  0.0f,  0.0f,  7.0f / 16,  0.0f,
+	1.0f, 1.0f, 0.0f, -1.0f,  0.0f,  0.0f,  7.0f / 16,  0.0f,
+	1.0f, 0.0f,  1.0f, -1.0f,  0.0f,  0.0f,  8.0f / 16,  1.0f / 16,
+	1.0f,  1.0f,  1.0f, -1.0f,  0.0f,  0.0f,  8.0f / 16,  0.0f,
+};
+GLfloat downside3[] = {
+	//down
+	0.0f,  0.0f, 0.0f,  0.0f,  1.0f,  0.0f,  7.0f / 16,  0.0f,
+	1.0f,  0.0f, 0.0f,  0.0f,  1.0f,  0.0f,  7.0f / 16,  1.0f / 16,
+	0.0f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,  8.0f / 16,  0.0f,
+	0.0f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,  8.0f / 16,  0.0f,
+	1.0f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,  7.0f / 16,  1.0f / 16,
+	1.0f,  0.0f, 1.0f,  0.0f,  1.0f,  0.0f,  8.0f / 16,  1.0f / 16
+};
+GLfloat upside3[] = {
+	//up
+	0.0f,  1.0f, 0.0f,  0.0f,  1.0f,  0.0f,  7.0f / 16,  0.0f,
+	1.0f,  1.0f, 0.0f,  0.0f,  1.0f,  0.0f,  7.0f / 16,  1.0f / 16,
+	0.0f,  1.0f,  1.0f,  0.0f,  1.0f,  0.0f,  8.0f / 16,  0.0f,
+	0.0f,  1.0f,  1.0f,  0.0f,  1.0f,  0.0f,  8.0f / 16,  0.0f,
+	1.0f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,  7.0f / 16,  1.0f / 16,
+	1.0f,  1.0f, 1.0f,  0.0f,  1.0f,  0.0f,  8.0f / 16,  1.0f / 16
+};
 mc_grass_cube::mc_grass_cube()
 {
 
@@ -148,4 +205,17 @@ void mc_grass_cube::initRenderData()
 	mc_tex_color[1].push_back((char*)"mc2");
 	mc_renders[1].push_back(new bare_sprite_renderer(ResourceManager::GetShader("baresprite"), downside, 6 * 8));
 	mc_tex_color[1].push_back((char*)"mc2");
+
+	mc_renders[2].push_back(new bare_sprite_renderer(ResourceManager::GetShader("baresprite"), nearside3, 6 * 8));
+	mc_tex_color[2].push_back((char*)"mc2");
+	mc_renders[2].push_back(new bare_sprite_renderer(ResourceManager::GetShader("baresprite"), leftside3, 6 * 8));
+	mc_tex_color[2].push_back((char*)"mc2");
+	mc_renders[2].push_back(new bare_sprite_renderer(ResourceManager::GetShader("baresprite"), rightside3, 6 * 8));
+	mc_tex_color[2].push_back((char*)"mc2");
+	mc_renders[2].push_back(new bare_sprite_renderer(ResourceManager::GetShader("baresprite"), upside3, 6 * 8));
+	mc_tex_color[2].push_back((char*)"mc2");
+	mc_renders[2].push_back(new bare_sprite_renderer(ResourceManager::GetShader("baresprite"), farside3, 6 * 8));
+	mc_tex_color[2].push_back((char*)"mc2");
+	mc_renders[2].push_back(new bare_sprite_renderer(ResourceManager::GetShader("baresprite"), downside3, 6 * 8));
+	mc_tex_color[2].push_back((char*)"mc2");
 }

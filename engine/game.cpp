@@ -48,7 +48,7 @@ glm::vec3 get_plane_coefficient(glm::vec3 vert[]) {
 }
 
 Game::Game(GLuint width, GLuint height)
-	: State(GAME_ROOM3), Keys(), Width(width), Height(height), firstMouse(true), stare_count(0.0)
+	: State(GAME_ROOM1), Keys(), Width(width), Height(height), firstMouse(true), stare_count(0.0)
 {
 
 }
@@ -208,6 +208,7 @@ double PerlinNoise(float x, float y)    // 最终调用：根据(x,y)获得其对应的Perlin
 		total = total + InterpolatedNoise(x * frequency, y * frequency) * amplitude;
 	}
 	total = pow(total + 0.5, 0.55);
+	if (isnan(total)) return 0.1;
 	return total;
 }
 
@@ -218,7 +219,7 @@ void Game::Init()
 
 	glm::vec3 vert[4];
 	vert[0] = glm::vec3();
-	/*
+	
 	ResourceManager::LoadTexture("obj/stonewall/Stone_02_COLOR.jpg", GL_TRUE, "stonewall");
 	ResourceManager::LoadTexture("obj/stonewall/Stone_02_SPEC.jpg", GL_TRUE, "stonewall_spec");
 	ResourceManager::LoadTexture("obj/stonewall/Stone_02_NRM.jpg", GL_TRUE, "stonewall_norm");
@@ -234,7 +235,7 @@ void Game::Init()
 	ResourceManager::LoadTexture("obj/room2floor/Wood_Floor_006_DISP.png", GL_TRUE, "floor2_spec");
 	ResourceManager::LoadTexture("obj/room2floor/Wood_Floor_006_NORM.jpg", GL_TRUE, "floor2_norm");
 	ResourceManager::LoadTexture("obj/room2floor/Wood_Floor_006_ROUGH.jpg", GL_TRUE, "floor2_high");
-	ResourceManager::LoadTexture("obj/wallpaper.jpg", GL_TRUE, "wallpaper");*/
+	ResourceManager::LoadTexture("obj/wallpaper.jpg", GL_TRUE, "wallpaper");
 	ResourceManager::LoadTexture("obj/mc/useful/DefaultPack2.png", GL_TRUE, "mc2");
 	ResourceManager::LoadShader("shader/light.vs", "shader/light.fs", nullptr, "light");
 	ResourceManager::LoadShader("shader/light.vs", "shader/light.fs", nullptr, "square");
@@ -244,17 +245,18 @@ void Game::Init()
 	this->Effects = new PostProcessor(ResourceManager::LoadShader("shader/post.vs", "shader/post.fs", nullptr, "post"), this->Width, this->Height);
 	//set trigger_square
 	static GLfloat square1[12] = {
-		-0.9, 0.0, -3.5,
-		0.9 , 0.0, -3.5,
-		0.9, 2.2, -3.5,
-		-0.9, 2.2, -3.5
+		-0.9, 0.9, -3.5,
+		1.2 , 0.9, -3.5,
+		1.2, 2.4, -3.5,
+		-0.9, 2.4, -3.5
 	};
+
 	this->trigger_square.push_back((GLfloat*)square1);
 	static GLfloat square2[12] = {
-		1.0, -2.3, 21.0,
-		1.5 , -2.3, 21.0,
-		1.5, -2.2, 21.0,
-		1.0, -2.2, 21.0
+		0.4, -0.43, 21.5,
+		0.9 , -0.43, 21.5,
+		0.9, -0.28, 21.5,
+		0.4, -0.28, 21.5
 	};
 	this->trigger_square.push_back((GLfloat*)square2);
 	this->trigger_square.push_back((GLfloat*)square2);
@@ -447,7 +449,7 @@ void Game::Init()
 	Model_size.push_back(glm::vec3(2.0, 2.0, 2.0));
 	Model_rotate.push_back(0.0);
 	Model_renders.push_back(new ModelRenderer(ResourceManager::GetShader("model"), "obj/xk/xk.obj"));
-	Model_place.push_back(glm::vec3(0.0, 0.0, -3.8));
+	Model_place.push_back(glm::vec3(1.3, 1.8, -3.8));
 	Model_size.push_back(glm::vec3(1.5, 1.5, 1.5));
 	Model_rotate.push_back(0.0);
 
@@ -498,7 +500,7 @@ void Game::Init()
 
 	Light_renders.push_back(new LightRenderer(ResourceManager::GetShader("light"), light_vertices));
 	Light_renders.push_back(new LightRenderer(ResourceManager::GetShader("light"), light_vertices));
-	GLfloat x = 0.9f, y = -0.0f, z = -3.5f, w = -0.9f, v = 2.2f;
+	GLfloat x = 1.2f, y = 0.9f, z = -3.5f, w = -0.9f, v = 2.4f;
 	GLfloat square[] = {
 		x,y,z,
 		w,y,z,
@@ -566,9 +568,9 @@ void Game::Init()
 
 	DrawCube(-11.85, 11.85, 3.85, -3.85, -3.85, 24.85, square_render2, 1);
 */
-	DrawCube(1.0, -2.3, 21.0, 1.5, -2.2, 21.0, square_render2, 1);
-
-	x = 0.9f; y = -0.23f; z = 20.8f; w = 0.4f; v = -0.33;
+	//DrawCube(1.0, -2.3, 21.0, 1.5, -2.2, 21.0, square_render2, 1);
+	
+	x = 0.9f; y = -0.28f; z = 21.5f; w = 0.4f; v = -0.43;
 	GLfloat squaree[] = {
 		x,y,z,
 		w,y,z,
@@ -703,22 +705,36 @@ void Game::Init()
 		"obj/skybox/2/negz.jpg"
 	};
 #endif
+	std::vector <std::string> cosmic
+	{
+		"obj/skybox/mp_drakeq/drakeq_ft.tga",
+		"obj/skybox/mp_drakeq/drakeq_bk.tga",
+		"obj/skybox/mp_drakeq/drakeq_up.tga",
+		"obj/skybox/mp_drakeq/drakeq_dn.tga",
+		"obj/skybox/mp_drakeq/drakeq_rt.tga",
+		"obj/skybox/mp_drakeq/drakeq_lf.tga"
+	};
 	ResourceManager::LoadSkybox(faces, "sky");
+	ResourceManager::LoadSkybox(cosmic, "cosmic");
 	tex_sky = (char*)"sky";
 	
-	GLint i, j, terrace = 6;
+	GLint i, j, terrace = 6, delta = 4;
 	for (i = 1; i <= MC_W; i++)
 		for (j = 1; j <= MC_H; j++)
-			if ((i % 2) ^ (j % 2))
-				heightm[i][j] = PerlinNoise(1 + 2 * i, 1 + 2 * j);
+			if (!((i % delta) && (j % delta)))
+				heightm[i][j] = PerlinNoise(i, j);
+			else
+			{
+				GLint ti = i / delta * delta, tj = j / delta * delta;
+				heightm[i][j] = (PerlinNoise(ti, tj)*(i - ti + j - tj) +
+					PerlinNoise(ti + delta, tj)*(ti + delta - i + j - tj) +
+					PerlinNoise(ti, tj + delta)*(i - ti + tj + delta - j) +
+					PerlinNoise(ti + delta, tj + delta)*(ti + delta - i + tj + delta - j)) / 4 / delta;
+			}
 	for (i = 1; i <= MC_W; i++)
 		for (j = 1; j <= MC_H; j++)
-			if (!((i % 2) ^ (j % 2)))
-				heightm[i][j] = (heightm[i - 1][j] + heightm[i + 1][j] + heightm[i][j + 1] + heightm[i][j - 1]) / 4;
-			
-	for (i = 1; i <= MC_H; i++)
-		for (j = 1; j <= MC_W; j++)
-			printf("%f\n", heightm[i][j]);
+			printf("%f\n", PerlinNoise(i,j));
+
 	cube.initRenderData();
 	glEnable(GL_DEPTH_TEST);
 }
@@ -732,7 +748,9 @@ GLint check(GLfloat* square, Camera* camera) {
 	}
 	glm::vec3 plane = get_plane_coefficient(vert);
 	GLfloat k = (1 - plane[0] * pos[0] - plane[1] * pos[1] - plane[2] * pos[2]) / (plane[0] * front[0] + plane[1] * front[1] + plane[2] * front[2]);
-	if (k < 0.0) return 0;
+	if (k < 0.0) {
+		printf("ddd"); return 0;
+	}
 	glm::vec3 new_pos = pos + k * front;
 
 	glm::vec3 flag = cross(new_pos - vert[3], new_pos - vert[0]);
@@ -984,15 +1002,15 @@ void Game::Render()
 		for (i=1; i<=MC_H; i++)
 			for (j = 1; j <= MC_W; j++)
 			{
-				GLint h = GLint(5 * (heightm[i][j]));
+				GLint h = GLint(5 * (heightm[i][j])) + 1;
 				for (k = 1; k <= h; k++)
 				{
-					pos = glm::vec3(i, k, j);
-					cube.Draw(this->camera, this->Height, this->Width, pos, siz, rot, k != h);
+					pos = glm::vec3(i, k-10, j);
+					cube.Draw(this->camera, this->Height, this->Width, pos, siz, rot, k<=2 ? 2:  k != h);
 				}
 			}
 		
-		sky_renders->Draw(this->camera, ResourceManager::GetSkybox("sky"), this->Height, this->Width);
+		sky_renders->Draw(this->camera, ResourceManager::GetSkybox("cosmic"), this->Height, this->Width);
 		break;
 	}
 	default: {

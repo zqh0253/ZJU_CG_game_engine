@@ -9,8 +9,8 @@
 #include "square_renderer.h"
 #include "post_processor.h"
 
-#define MC_W 11
-#define MC_H 11
+#define MC_W 21
+#define MC_H 21
 
 // Represents the current state of the game
 enum GameState {
