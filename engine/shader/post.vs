@@ -6,6 +6,7 @@ out vec2 TexCoords;
 uniform bool  chaos;
 uniform bool  confuse;
 uniform bool  shake;
+uniform bool blur;
 uniform float time;
 
 void main()

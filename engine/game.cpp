@@ -48,7 +48,7 @@ glm::vec3 get_plane_coefficient(glm::vec3 vert[]) {
 }
 
 Game::Game(GLuint width, GLuint height)
-	: State(GAME_ROOM1), Keys(), Width(width), Height(height), firstMouse(true), stare_count(0.0)
+	: State(GAME_ROOM3), Keys(), Width(width), Height(height), firstMouse(true), stare_count(0.0), lock_camera(0)
 {
 
 }
@@ -216,7 +216,10 @@ mc_grass_cube cube;
 
 void Game::Init()
 {
-
+	this->targetpos[0] = glm::vec3(0.3846, 1.4635, -1.8709);
+	this->targetfrt[0] = glm::vec3(0.0, 0.0, -1.0);
+	this->targetpos[1] = glm::vec3(-15.74456, 11.810843, 36.752373);
+	this->targetfrt[1] = glm::vec3(0.623889, -0.4313, -0.6517);
 	glm::vec3 vert[4];
 	vert[0] = glm::vec3();
 	
@@ -749,7 +752,7 @@ GLint check(GLfloat* square, Camera* camera) {
 	glm::vec3 plane = get_plane_coefficient(vert);
 	GLfloat k = (1 - plane[0] * pos[0] - plane[1] * pos[1] - plane[2] * pos[2]) / (plane[0] * front[0] + plane[1] * front[1] + plane[2] * front[2]);
 	if (k < 0.0) {
-		printf("ddd"); return 0;
+		return 0;
 	}
 	glm::vec3 new_pos = pos + k * front;
 
@@ -765,16 +768,73 @@ GLint check(GLfloat* square, Camera* camera) {
 
 void Game::Update(GLfloat dt)
 {
-	if (check(this->trigger_square[this->State], this->camera)) {
-		this->stare_count += dt;
-		if (this->stare_count > 5.0) {
-			((int&)this->State)++;
+	printf("%f %f %f %f %f %f %f %f\n", this->camera->Position[0], this->camera->Position[1], this->camera->Position[2], this->camera->Front[0], this->camera->Front[1], this->camera->Front[2], this->camera->Yaw, this->camera->Pitch);
+	if (!lock_camera)
+	{
+		if (check(this->trigger_square[this->State], this->camera)) {
+			this->Effects->Blur = 1;
+			this->stare_count += dt;
+			if (this->stare_count > TRIGGER_TIME) {
+				if (this->State == GAME_ROOM1)
+				{
+					this->lock_camera = 1;
+					this->transfer_count = 0;
+					this->Effects->Shake = 1;
+					this->pos = this->camera->Position;
+					this->frt = this->camera->Front;
+				}
+				else
+				{
+					((int&)this->State)++;
+					this->transfer_count = 0;
+					this->lock_camera = 1;
+					this->Effects->Chaos = 1;
+				}
+			}
+		}
+		else {
 			this->stare_count = 0.0;
-			if (this->State == GAME_ROOM2)
-				this->camera->Position = glm::vec3(8.0, 0.0, 18.0);
+			this->pos = this->camera->Position;
+			this->frt = this->camera->Front;
+			this->Effects->Blur = 0;
+		}
+		this->Effects->updateBlur(this->stare_count);
+	}
+	else
+	{
+		if (this->State == GAME_ROOM1)
+		{
+			this->camera->Position = this->pos + (targetpos[0] - this->pos)*glm::vec3(this->transfer_count / 3.0, this->transfer_count / 3.0, this->transfer_count / 3.0);
+			this->camera->Front = this->frt + (targetfrt[0] - this->frt)*glm::vec3(this->transfer_count / 3.0, this->transfer_count / 3.0, this->transfer_count / 3.0);
+			transfer_count += dt;
+			if (transfer_count > 3.0)
+			{
+				this->lock_camera = 0;
+				((int&)this->State)++;
+				this->camera->resetvector(-154.85,-0.0);
+				this->stare_count = 0.0;
+				this->Effects->Shake = 0;
+				this->camera->Position = glm::vec3(10.0, 0.0, 23.0);
+				this->camera->Front = glm::vec3(-0.893552, -0.159881, -0.419527);
+				this->firstMouse = 1;
+				//this->camera->
+			}
+		}
+		else
+		{
+			this->camera->Position = this->pos + (targetpos[1] - this->pos)*glm::vec3(this->transfer_count / 10.0, this->transfer_count / 10.0, this->transfer_count / 10.0);
+			this->camera->Front = this->frt + (targetfrt[1] - this->frt)*glm::vec3(this->transfer_count / 10.0, this->transfer_count / 10.0, this->transfer_count / 10.0);
+			this->transfer_count += dt;
+			if (transfer_count > 10.0)
+			{
+				this->lock_camera = 0;
+				this->stare_count = 0.0;
+				this->Effects->Chaos = 0;
+				this->firstMouse = 1;
+				this->camera->resetvector(-406.25,-0.0);
+			}
 		}
 	}
-	else this->stare_count = 0.0;
 }
 
 int sign(GLfloat a)
@@ -876,46 +936,55 @@ void Game::grab(void)
 void Game::ProcessInput(GLfloat dt)
 {
 	//keyboard input
-	glm::vec3 prev_position = this->camera->Position;
-	if (this->Keys[GLFW_KEY_W] == GLFW_PRESS) {
-		this->camera->ProcessKeyboard(FORWARD, dt);
-	}
-	if (this->Keys[GLFW_KEY_S] == GLFW_PRESS) {
-		this->camera->ProcessKeyboard(BACKWARD, dt);
-	}
-	if (this->Keys[GLFW_KEY_A] == GLFW_PRESS) {
-		this->camera->ProcessKeyboard(LEFT, dt);
-	}
-	if (this->Keys[GLFW_KEY_D] == GLFW_PRESS) {
-		this->camera->ProcessKeyboard(RIGHT, dt);
-	}
-	if (this->Keys[GLFW_KEY_P] == GLFW_PRESS) {
-		grab();
-	}
+	if (!lock_camera)
+	{
+		glm::vec3 prev_position = this->camera->Position;
+		if (this->Keys[GLFW_KEY_W] == GLFW_PRESS) {
+			this->camera->ProcessKeyboard(FORWARD, dt);
+		}
+		if (this->Keys[GLFW_KEY_S] == GLFW_PRESS) {
+			this->camera->ProcessKeyboard(BACKWARD, dt);
+		}
+		if (this->Keys[GLFW_KEY_A] == GLFW_PRESS) {
+			this->camera->ProcessKeyboard(LEFT, dt);
+		}
+		if (this->Keys[GLFW_KEY_D] == GLFW_PRESS) {
+			this->camera->ProcessKeyboard(RIGHT, dt);
+		}
+		if (this->Keys[GLFW_KEY_P] == GLFW_PRESS) {
+			grab();
+		}
 
-	if (check_collision(prev_position, this->camera->Position)) {
-		this->camera->Position = prev_position;
+		if (check_collision(prev_position, this->camera->Position)) {
+			this->camera->Position = prev_position;
+		}
 	}
 }
 
 void Game::ProcessMouseMovement(GLfloat dt) {
 	//mouse input
-	if (this->firstMouse)
+	if (!lock_camera)
 	{
+		if (this->firstMouse)
+		{
+			this->lastX = this->xpos;
+			this->lastY = this->ypos;
+			this->firstMouse = false;
+		}
+		float dx = this->xpos - this->lastX;
+		float dy = this->lastY - this->ypos; // reversed since y-coordinates go from bottom to top
 		this->lastX = this->xpos;
 		this->lastY = this->ypos;
-		this->firstMouse = false;
+		this->camera->ProcessMouseMovement(dx, dy);
 	}
-	float dx = this->xpos - this->lastX;
-	float dy = this->lastY - this->ypos; // reversed since y-coordinates go from bottom to top
-	this->lastX = this->xpos;
-	this->lastY = this->ypos;
-	this->camera->ProcessMouseMovement(dx, dy);
 }
 
 void Game::ProcessScrollMovement(GLfloat yoffset) {
 	//scroll input
-	this->camera->ProcessMouseScroll(yoffset);
+	if (!lock_camera)
+	{
+		this->camera->ProcessMouseScroll(yoffset);
+	}
 }
 
 void Game::Render()
@@ -995,6 +1064,8 @@ void Game::Render()
 		break;
 	}
 	case GAME_ROOM3: {
+		glEnable(GL_CULL_FACE);//ÃæÌÞ³ý
+
 		glm::vec3 pos = glm::vec3(0, 0, 0);
 		glm::vec3 siz = glm::vec3(1, 1, 1);
 		GLfloat rot = 0.0f;

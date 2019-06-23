@@ -115,7 +115,10 @@ public:
 		if (Zoom >= 45.0f)
 			Zoom = 45.0f;
 	}
-
+	void resetvector(GLfloat yaw, GLfloat pitch) {
+		Yaw = yaw;
+		Pitch = pitch;
+	}
 private:
 	// Calculates the front vector from the Camera's (updated) Euler Angles
 	void updateCameraVectors()

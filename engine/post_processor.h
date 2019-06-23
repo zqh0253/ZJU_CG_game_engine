@@ -2,6 +2,7 @@
 #ifndef POST_PROCESSOR_H
 #define POST_PROCESSOR_H
 
+#define TRIGGER_TIME 5.0
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 
@@ -24,11 +25,12 @@ public:
 	Texture2D Texture;
 	GLuint Width, Height;
 	// Options
-	GLboolean Confuse, Chaos, Shake;
+	GLboolean Confuse, Chaos, Shake, Blur;
 	// Constructor
 	PostProcessor();
 	PostProcessor(Shader shader, GLuint width, GLuint height);
 	// Prepares the postprocessor's framebuffer operations before rendering the game
+	void updateBlur(GLfloat t);
 	void BeginRender();
 	// Should be called after rendering the game, so it stores all the rendered data into a texture object
 	void EndRender();

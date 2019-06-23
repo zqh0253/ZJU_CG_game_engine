@@ -10,13 +10,14 @@ uniform float     blur_kernel[9];
 uniform bool chaos;
 uniform bool confuse;
 uniform bool shake;
+uniform bool blur;
 
 void main()
 {
     color = vec4(0.0f);
     vec3 sample[9];
     // 如果使用卷积矩阵，则对纹理的偏移像素进行采样
-    if(chaos || shake)
+    if(chaos || shake || blur)
         for(int i = 0; i < 9; i++)
             sample[i] = vec3(texture(scene, TexCoords.st + offsets[i]));
 
@@ -31,7 +32,7 @@ void main()
     {
         color = vec4(1.0 - texture(scene, TexCoords).rgb, 1.0);
     }
-    else if(shake)
+    else if(shake || blur)
     {
         for(int i = 0; i < 9; i++)
             color += vec4(sample[i] * blur_kernel[i], 0.0f);

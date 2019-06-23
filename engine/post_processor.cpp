@@ -9,7 +9,7 @@ PostProcessor::PostProcessor()
 }
 
 PostProcessor::PostProcessor(Shader shader, GLuint width, GLuint height)
-	: PostProcessingShader(shader), Texture(), Width(width), Height(height), Confuse(GL_FALSE), Chaos(GL_FALSE), Shake(GL_FALSE)
+	: PostProcessingShader(shader), Texture(), Width(width), Height(height), Confuse(GL_FALSE), Chaos(GL_FALSE), Shake(GL_FALSE), Blur(GL_FALSE)
 {
 	// Initialize renderbuffer/framebuffer object
 	glGenFramebuffers(1, &this->MSFBO);
@@ -63,9 +63,18 @@ PostProcessor::PostProcessor(Shader shader, GLuint width, GLuint height)
 	glUniform1fv(glGetUniformLocation(this->PostProcessingShader.ID, "blur_kernel"), 9, blur_kernel);
 }
 
+void PostProcessor::updateBlur(GLfloat t) {
+	t *= 2;
+	GLfloat blur_kernel[9] = {
+		1.0 * t / TRIGGER_TIME / 16, 2.0 * t / TRIGGER_TIME / 16, 1.0 * t / TRIGGER_TIME / 16,
+		2.0 * t / TRIGGER_TIME / 16, (16.0 - 12.0*t / TRIGGER_TIME) / 16, 2.0 * t / TRIGGER_TIME / 16,
+		1.0 * t / TRIGGER_TIME / 16, 2.0 * t / TRIGGER_TIME / 16, 1.0 * t / TRIGGER_TIME / 16
+	};
+	glUniform1fv(glGetUniformLocation(this->PostProcessingShader.ID, "blur_kernel"), 9, blur_kernel);
+}
+
 void PostProcessor::BeginRender()
 {
-
 	glBindFramebuffer(GL_FRAMEBUFFER, this->MSFBO);
 	glEnable(GL_DEPTH_TEST); // enable depth testing (is disabled for rendering screen-space quad)
 
@@ -100,6 +109,7 @@ void PostProcessor::Render(GLfloat time)
 	this->PostProcessingShader.SetInteger("confuse", this->Confuse);
 	this->PostProcessingShader.SetInteger("chaos", this->Chaos);
 	this->PostProcessingShader.SetInteger("shake", this->Shake);
+	this->PostProcessingShader.SetInteger("blur", this->Blur);
 	// Render textured quad
 	
 	glActiveTexture(GL_TEXTURE0);

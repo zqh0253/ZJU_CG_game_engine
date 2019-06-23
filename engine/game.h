@@ -51,9 +51,12 @@ private:
 	//I use (A,B,C) to present a plane Ax + By + Cz = 1.
 	std::vector<glm::mat4x3> planes[4];
 	//	std::map<GameState, GameState> next_state;
-	GLfloat stare_count;
+	GLfloat stare_count, transfer_count;
+	glm::vec3 pos, targetpos[3];
+	glm::vec3 frt, targetfrt[3];
 	PostProcessor* Effects;
 	GLfloat heightm[MC_W +10][MC_H + 10];
+	GLint lock_camera;
 	void grab();
 };
 
