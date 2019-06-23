@@ -734,9 +734,6 @@ void Game::Init()
 					PerlinNoise(ti, tj + delta)*(i - ti + tj + delta - j) +
 					PerlinNoise(ti + delta, tj + delta)*(ti + delta - i + tj + delta - j)) / 4 / delta;
 			}
-	for (i = 1; i <= MC_W; i++)
-		for (j = 1; j <= MC_H; j++)
-			printf("%f\n", PerlinNoise(i,j));
 
 	cube.initRenderData();
 	glEnable(GL_DEPTH_TEST);
@@ -768,7 +765,7 @@ GLint check(GLfloat* square, Camera* camera) {
 
 void Game::Update(GLfloat dt)
 {
-	printf("%f %f %f %f %f %f %f %f\n", this->camera->Position[0], this->camera->Position[1], this->camera->Position[2], this->camera->Front[0], this->camera->Front[1], this->camera->Front[2], this->camera->Yaw, this->camera->Pitch);
+	//printf("%f %f %f %f %f %f %f %f\n", this->camera->Position[0], this->camera->Position[1], this->camera->Position[2], this->camera->Front[0], this->camera->Front[1], this->camera->Front[2], this->camera->Yaw, this->camera->Pitch);
 	if (!lock_camera)
 	{
 		if (check(this->trigger_square[this->State], this->camera)) {

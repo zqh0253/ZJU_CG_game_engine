@@ -7,10 +7,11 @@
 #include <GLFW/glfw3.h>
 #include <map>
 #include "square_renderer.h"
+#include "mc_grass_cube.h"
 #include "post_processor.h"
 
-#define MC_W 21
-#define MC_H 21
+#define MC_W 13
+#define MC_H 13
 
 // Represents the current state of the game
 enum GameState {
@@ -58,6 +59,7 @@ private:
 	GLfloat heightm[MC_W +10][MC_H + 10];
 	GLint lock_camera;
 	void grab();
+	Shader mcshader;
 };
 
 #endif
