@@ -14,8 +14,10 @@
 #include "bare_sprite_renderer.h"
 #include "skybox_renderer.h"
 #include "mc_grass_cube.h"
+#include "voxel.h"
+#include "text.h"
 
-#define SQUARE
+//#define SQUARE
 #define BMP_Header_Length 54
 #define  _CRT_SECURE_NO_WARNINGS 
 std::vector<GLchar*> tex_color, tex_color2;
@@ -32,8 +34,12 @@ std::vector<square_renderer*> square_render, square_render2;
 std::vector<bare_sprite_renderer*> Bare_renders, mc_renders;
 std::vector<GLchar*> bare_tex_color, mc_tex_color;
 
+GLfloat time_cnt_for_words=0.0f;
+
 skybox_renderer* sky_renders;
 GLchar* tex_sky;
+voxel vox;
+text tex;
 
 //feed in 3 vertices of a rectangle. 
 //return the coefficient of the rectangle's plane.
@@ -48,7 +54,7 @@ glm::vec3 get_plane_coefficient(glm::vec3 vert[]) {
 }
 
 Game::Game(GLuint width, GLuint height)
-	: State(GAME_ROOM3), Keys(), Width(width), Height(height), firstMouse(true), stare_count(0.0), lock_camera(0)
+	: State(GAME_ROOM1), Keys(), Width(width), Height(height), firstMouse(true), stare_count(0.0), lock_camera(0)
 {
 
 }
@@ -201,7 +207,7 @@ double PerlinNoise(float x, float y)    // 最终调用：根据(x,y)获得其对应的Perlin
 	double total = 0;
 	double p = persistence;
 	int n = Number_Of_Octaves;
-	for (int i = 0; i<n; i++)
+	for (int i = 0; i < n; i++)
 	{
 		double frequency = pow(2, i);
 		double amplitude = pow(p, i);
@@ -222,7 +228,7 @@ void Game::Init()
 	this->targetfrt[1] = glm::vec3(0.623889, -0.4313, -0.6517);
 	glm::vec3 vert[4];
 	vert[0] = glm::vec3();
-	
+
 	ResourceManager::LoadTexture("obj/stonewall/Stone_02_COLOR.jpg", GL_TRUE, "stonewall");
 	ResourceManager::LoadTexture("obj/stonewall/Stone_02_SPEC.jpg", GL_TRUE, "stonewall_spec");
 	ResourceManager::LoadTexture("obj/stonewall/Stone_02_NRM.jpg", GL_TRUE, "stonewall_norm");
@@ -244,7 +250,9 @@ void Game::Init()
 	ResourceManager::LoadShader("shader/light.vs", "shader/light.fs", nullptr, "square");
 	ResourceManager::LoadShader("shader/baresprite.vs", "shader/baresprite.fs", nullptr, "baresprite");
 	ResourceManager::LoadShader("shader/sky.vs", "shader/sky.fs", nullptr, "sky");
-	
+	ResourceManager::LoadShader("shader/voxel.vs", "shader/voxel.fs", nullptr, "voxel");
+	ResourceManager::LoadShader("shader/text.vs", "shader/text.fs", nullptr, "text");
+
 	this->Effects = new PostProcessor(ResourceManager::LoadShader("shader/post.vs", "shader/post.fs", nullptr, "post"), this->Width, this->Height);
 	//set trigger_square
 	static GLfloat square1[12] = {
@@ -514,7 +522,7 @@ void Game::Init()
 	};
 	square_render.push_back(new square_renderer(ResourceManager::GetShader("square"), square));
 	x = -3.1f, y = -4.0f, z = -0.95f, w = -1.9f, v = 0.00f;
-	/*DrawCube(-3.1, -1.9, -4.0, 0.1, -0.95, -2.05, square_render, 0);
+	DrawCube(-3.1, -1.9, -4.0, 0.1, -0.95, -2.05, square_render, 0);
 	DrawCube(1.9, 3.1, -4.0, 0.1, -0.95, -2.05, square_render, 0);
 	DrawCube(-3.85, 3.85, 3.85, -3.85, -3.85, 24.85, square_render, 0);
 
@@ -570,9 +578,9 @@ void Game::Init()
 	DrawCube(1.45, 1.85, -3.63, -4, -1.8, -1.4, square_render2, 1);
 
 	DrawCube(-11.85, 11.85, 3.85, -3.85, -3.85, 24.85, square_render2, 1);
-*/
-	//DrawCube(1.0, -2.3, 21.0, 1.5, -2.2, 21.0, square_render2, 1);
 	
+	//DrawCube(1.0, -2.3, 21.0, 1.5, -2.2, 21.0, square_render2, 1);
+
 	x = 0.9f; y = -0.28f; z = 21.5f; w = 0.4f; v = -0.43;
 	GLfloat squaree[] = {
 		x,y,z,
@@ -720,7 +728,7 @@ void Game::Init()
 	ResourceManager::LoadSkybox(faces, "sky");
 	ResourceManager::LoadSkybox(cosmic, "cosmic");
 	tex_sky = (char*)"sky";
-	
+
 	GLint i, j, terrace = 6, delta = 4;
 	for (i = 1; i <= MC_W; i++)
 		for (j = 1; j <= MC_H; j++)
@@ -736,6 +744,8 @@ void Game::Init()
 			}
 
 	cube.initRenderData();
+	vox.init(ResourceManager::GetShader("voxel"));
+	tex.init(ResourceManager::GetShader("text"));
 	glEnable(GL_DEPTH_TEST);
 }
 
@@ -765,6 +775,9 @@ GLint check(GLfloat* square, Camera* camera) {
 
 void Game::Update(GLfloat dt)
 {
+	if (this->State == GAME_ROOM2) {
+		time_cnt_for_words += dt;
+	}
 	//printf("%f %f %f %f %f %f %f %f\n", this->camera->Position[0], this->camera->Position[1], this->camera->Position[2], this->camera->Front[0], this->camera->Front[1], this->camera->Front[2], this->camera->Yaw, this->camera->Pitch);
 	if (!lock_camera)
 	{
@@ -779,6 +792,7 @@ void Game::Update(GLfloat dt)
 					this->Effects->Shake = 1;
 					this->pos = this->camera->Position;
 					this->frt = this->camera->Front;
+					time_cnt_for_words = 0;
 				}
 				else
 				{
@@ -808,7 +822,7 @@ void Game::Update(GLfloat dt)
 			{
 				this->lock_camera = 0;
 				((int&)this->State)++;
-				this->camera->resetvector(-154.85,-0.0);
+				this->camera->resetvector(-154.85, -0.0);
 				this->stare_count = 0.0;
 				this->Effects->Shake = 0;
 				this->camera->Position = glm::vec3(10.0, 0.0, 23.0);
@@ -828,7 +842,7 @@ void Game::Update(GLfloat dt)
 				this->stare_count = 0.0;
 				this->Effects->Chaos = 0;
 				this->firstMouse = 1;
-				this->camera->resetvector(-406.25,-0.0);
+				this->camera->resetvector(-406.25, -0.0);
 			}
 		}
 	}
@@ -892,7 +906,7 @@ void Game::grab(void)
 		++i;
 	PixelDataLength = i * this->Height;  //补齐后的总位数
 
-										  // 分配内存和打开文件
+										 // 分配内存和打开文件
 	pPixelData = (GLubyte*)malloc(PixelDataLength);
 	if (pPixelData == 0)
 		exit(0);
@@ -1022,6 +1036,8 @@ void Game::Render()
 			(*sqi)->Draw(this->camera, this->Height, this->Width);
 #endif 
 		sky_renders->Draw(this->camera, ResourceManager::GetSkybox("sky"), this->Height, this->Width);
+		tex.paintText("Welcome to this new world.", 65.0f, 65.0f, 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
+		tex.paintText("Concentrate on what you are insterested in.", 65.0f, 35.0f, 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
 		break; }
 	case GAME_ROOM2: {
 #ifdef SQUARE
@@ -1058,27 +1074,56 @@ void Game::Render()
 			(*mi)->Draw(this->camera, this->Height, this->Width, *mpi, *msi, *mri, glm::vec3(0.0f, 1.0f, 0.0f));
 
 		sky_renders->Draw(this->camera, ResourceManager::GetSkybox("sky"), this->Height, this->Width);
+		if (time_cnt_for_words > 3.0 && time_cnt_for_words <12.0)
+			tex.paintText("(Hope you have not got dissy in the journey QAQ)", 35.0f, 35.0f + 50.f*(int(time_cnt_for_words - 3) / 3), 1.0f, glm::vec3(0.8, 0.8f, 0.5f));
+		if (time_cnt_for_words > 6.0 && time_cnt_for_words <15.0)
+			tex.paintText("(Anyway, you have entered another world!)", 35.0f, 35.0f + 50.f*(int(time_cnt_for_words - 6) / 3), 1.0f, glm::vec3(0.8, 0.8f, 0.5f));
+		if (time_cnt_for_words > 9.0 && time_cnt_for_words <18.0)
+			tex.paintText("MAN: Hey, where would you like to go for vacation?", 35.0f, 35.0f + 50.f*(int(time_cnt_for_words - 9) / 3), 1.0f, glm::vec3(0.8, 0.8f, 0.5f));
+		if (time_cnt_for_words > 12.0 && time_cnt_for_words <21.0)
+			tex.paintText("Woman: WOW! That a good and sweet question!", 35.0f, 35.0f + 50.f*(int(time_cnt_for_words - 12) / 3), 1.0f, glm::vec3(0.8, 0.8f, 0.5f));
+		if (time_cnt_for_words > 15.0 && time_cnt_for_words <24.0)
+			tex.paintText("Woman: maybe we should ask the baby first~", 35.0f, 35.0f + 50.f*(int(time_cnt_for_words - 15) / 3), 1.0f, glm::vec3(0.8, 0.8f, 0.5f));
+		if (time_cnt_for_words > 18.0 && time_cnt_for_words <27.0)
+			tex.paintText("Baby: ....", 35.0f, 35.0f + 50.f*(int(time_cnt_for_words - 18) / 3), 1.0f, glm::vec3(0.8, 0.8f, 0.5f));
+		if (time_cnt_for_words > 21.0 && time_cnt_for_words <30.0)
+			tex.paintText("(When you want to know about somebody's mind)", 35.0f, 35.0f + 50.f*(int(time_cnt_for_words - 21) / 3), 1.0f, glm::vec3(0.8, 0.8f, 0.5f));
+		if (time_cnt_for_words > 24.0 && time_cnt_for_words <33.0)
+			tex.paintText("(Looking into his eyes may be a good idea.)", 35.0f, 35.0f + 50.f*(int(time_cnt_for_words - 24) / 3), 1.0f, glm::vec3(0.8, 0.8f, 0.5f));
+
 		break;
 	}
 	case GAME_ROOM3: {
-		glEnable(GL_CULL_FACE);//面剔除
+		glDisable(GL_CULL_FACE);//面剔除
 
 		glm::vec3 pos = glm::vec3(0, 0, 0);
 		glm::vec3 siz = glm::vec3(1, 1, 1);
 		GLfloat rot = 0.0f;
+		//tex.paintText("This is sample text", 65.0f, 65.0f, 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
+		vox.drawtree1(this->camera, this->Height, this->Width, glm::vec3(4.5, -6, 10.5), GLfloat(0.4)*siz, glm::vec3(1.0, 0.5, 0.0));
+		vox.drawtree1(this->camera, this->Height, this->Width, glm::vec3(7.5, -5, 10.5), GLfloat(0.4)*siz, glm::vec3(1.0, 0.5, 0.0));
+		vox.drawtree1(this->camera, this->Height, this->Width, glm::vec3(4.5, -5, 6.5), GLfloat(0.4)*siz, glm::vec3(1.0, 0.5, 0.0));
+		vox.drawtree1(this->camera, this->Height, this->Width, glm::vec3(3.5, -6, 3.5), GLfloat(0.4)*siz, glm::vec3(1.0, 0.5, 0.0));
+		vox.drawtree1(this->camera, this->Height, this->Width, glm::vec3(1.5, -6, 1.5), GLfloat(0.4)*siz, glm::vec3(1.0, 0.5, 0.0));
+		vox.drawtree1(this->camera, this->Height, this->Width, glm::vec3(10.5, -5, 10.5), GLfloat(0.4)*siz, glm::vec3(1.0, 0.5, 0.0));
+		vox.drawtree2(this->camera, this->Height, this->Width, glm::vec3(8.5, -4, 7.5), GLfloat(0.2)*siz, glm::vec3(1.0, 0.5, 0.0));
+		vox.drawtree2(this->camera, this->Height, this->Width, glm::vec3(6.5, -4, 4.5), GLfloat(0.2)*siz, glm::vec3(1.0, 0.5, 0.0));
+		vox.drawtree3(this->camera, this->Height, this->Width, glm::vec3(7.5, -6, 5.5), GLfloat(0.4)*siz, glm::vec3(1.0, 0.5, 0.0));
+		//sky_renders->Draw(this->camera, ResourceManager::GetSkybox("sky"), this->Height, this->Width);
 		GLint i, j, k;
-		for (i=1; i<=MC_H; i++)
+		glEnable(GL_CULL_FACE);//面剔除
+		for (i = 1; i <= MC_H; i++)
 			for (j = 1; j <= MC_W; j++)
 			{
 				GLint h = GLint(5 * (heightm[i][j])) + 1;
 				for (k = 1; k <= h; k++)
 				{
-					pos = glm::vec3(i, k-10, j);
-					cube.Draw(this->camera, this->Height, this->Width, pos, siz, rot, k<=2 ? 2:  k != h);
+					pos = glm::vec3(i, k - 10, j);
+					cube.Draw(this->camera, this->Height, this->Width, pos, siz, rot, k <= 2 ? 2 : k != h);
 				}
 			}
-		
 		sky_renders->Draw(this->camera, ResourceManager::GetSkybox("cosmic"), this->Height, this->Width);
+		tex.paintText("There is an entire cosmic in every baby's eyes.", 35.0f, 35.0f, 1.0f, glm::vec3(1.0, 1.0f, 1.0f));
 		break;
 	}
 	default: {

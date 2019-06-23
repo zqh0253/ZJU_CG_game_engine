@@ -135,6 +135,7 @@
     <ClCompile Include="skybox_renderer.cpp" />
     <ClCompile Include="sprite_renderer.cpp" />
     <ClCompile Include="square_renderer.cpp" />
+    <ClCompile Include="text.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="voxel.cpp" />
   </ItemGroup>
@@ -154,6 +155,7 @@
     <ClInclude Include="sprite_renderer.h" />
     <ClInclude Include="square_renderer.h" />
     <ClInclude Include="stb_image.h" />
+    <ClInclude Include="text.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="voxel.h" />
   </ItemGroup>
@@ -166,6 +168,10 @@
     <None Include="shader\light.vs" />
     <None Include="shader\post.fs" />
     <None Include="shader\post.vs" />
+    <None Include="shader\s.fs" />
+    <None Include="shader\s.vs" />
+    <None Include="shader\shadow.fs" />
+    <None Include="shader\shadow.vs" />
     <None Include="shader\sky.fs" />
     <None Include="shader\sky.vs" />
     <None Include="shader\sprite.fs" />
