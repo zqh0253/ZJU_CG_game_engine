@@ -2,15 +2,10 @@
 d:\work\cs\cg\project\engine\engine\game.cpp(22): warning C4005: “_CRT_SECURE_NO_WARNINGS”: 宏重定义
   d:\work\cs\cg\project\engine\engine\game.cpp(22): note: 命令行参数: 参见前面的“_CRT_SECURE_NO_WARNINGS”定义
 d:\work\cs\cg\project\engine\engine\game.cpp(214): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(263): warning C4838: 从“double”转换到“GLfloat”需要收缩转换
-d:\work\cs\cg\project\engine\engine\game.cpp(263): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-d:\work\cs\cg\project\engine\engine\game.cpp(271): warning C4838: 从“double”转换到“GLfloat”需要收缩转换
-d:\work\cs\cg\project\engine\engine\game.cpp(271): warning C4305: “初始化”: 从“double”到“GLfloat”截断
-d:\work\cs\cg\project\engine\engine\game.cpp(525): warning C4305: “参数”: 从“double”到“GLfloat”截断
-d:\work\cs\cg\project\engine\engine\game.cpp(526): warning C4305: “参数”: 从“double”到“GLfloat”截断
-d:\work\cs\cg\project\engine\engine\game.cpp(527): warning C4305: “参数”: 从“double”到“GLfloat”截断
-d:\work\cs\cg\project\engine\engine\game.cpp(529): warning C4305: “参数”: 从“double”到“GLfloat”截断
-d:\work\cs\cg\project\engine\engine\game.cpp(530): warning C4305: “参数”: 从“double”到“GLfloat”截断
+d:\work\cs\cg\project\engine\engine\game.cpp(269): warning C4838: 从“double”转换到“GLfloat”需要收缩转换
+d:\work\cs\cg\project\engine\engine\game.cpp(269): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+d:\work\cs\cg\project\engine\engine\game.cpp(277): warning C4838: 从“double”转换到“GLfloat”需要收缩转换
+d:\work\cs\cg\project\engine\engine\game.cpp(277): warning C4305: “初始化”: 从“double”到“GLfloat”截断
 d:\work\cs\cg\project\engine\engine\game.cpp(531): warning C4305: “参数”: 从“double”到“GLfloat”截断
 d:\work\cs\cg\project\engine\engine\game.cpp(532): warning C4305: “参数”: 从“double”到“GLfloat”截断
 d:\work\cs\cg\project\engine\engine\game.cpp(533): warning C4305: “参数”: 从“double”到“GLfloat”截断
@@ -24,7 +19,6 @@ d:\work\cs\cg\project\engine\engine\game.cpp(542): warning C4305: “参数”: 
 d:\work\cs\cg\project\engine\engine\game.cpp(543): warning C4305: “参数”: 从“double”到“GLfloat”截断
 d:\work\cs\cg\project\engine\engine\game.cpp(544): warning C4305: “参数”: 从“double”到“GLfloat”截断
 d:\work\cs\cg\project\engine\engine\game.cpp(545): warning C4305: “参数”: 从“double”到“GLfloat”截断
-d:\work\cs\cg\project\engine\engine\game.cpp(546): warning C4305: “参数”: 从“double”到“GLfloat”截断
 d:\work\cs\cg\project\engine\engine\game.cpp(547): warning C4305: “参数”: 从“double”到“GLfloat”截断
 d:\work\cs\cg\project\engine\engine\game.cpp(548): warning C4305: “参数”: 从“double”到“GLfloat”截断
 d:\work\cs\cg\project\engine\engine\game.cpp(549): warning C4305: “参数”: 从“double”到“GLfloat”截断
@@ -32,55 +26,156 @@ d:\work\cs\cg\project\engine\engine\game.cpp(550): warning C4305: “参数”: 
 d:\work\cs\cg\project\engine\engine\game.cpp(551): warning C4305: “参数”: 从“double”到“GLfloat”截断
 d:\work\cs\cg\project\engine\engine\game.cpp(552): warning C4305: “参数”: 从“double”到“GLfloat”截断
 d:\work\cs\cg\project\engine\engine\game.cpp(553): warning C4305: “参数”: 从“double”到“GLfloat”截断
+d:\work\cs\cg\project\engine\engine\game.cpp(554): warning C4305: “参数”: 从“double”到“GLfloat”截断
 d:\work\cs\cg\project\engine\engine\game.cpp(555): warning C4305: “参数”: 从“double”到“GLfloat”截断
 d:\work\cs\cg\project\engine\engine\game.cpp(556): warning C4305: “参数”: 从“double”到“GLfloat”截断
 d:\work\cs\cg\project\engine\engine\game.cpp(557): warning C4305: “参数”: 从“double”到“GLfloat”截断
 d:\work\cs\cg\project\engine\engine\game.cpp(558): warning C4305: “参数”: 从“double”到“GLfloat”截断
 d:\work\cs\cg\project\engine\engine\game.cpp(559): warning C4305: “参数”: 从“double”到“GLfloat”截断
-d:\work\cs\cg\project\engine\engine\game.cpp(560): warning C4305: “参数”: 从“double”到“GLfloat”截断
 d:\work\cs\cg\project\engine\engine\game.cpp(561): warning C4305: “参数”: 从“double”到“GLfloat”截断
 d:\work\cs\cg\project\engine\engine\game.cpp(562): warning C4305: “参数”: 从“double”到“GLfloat”截断
+d:\work\cs\cg\project\engine\engine\game.cpp(563): warning C4305: “参数”: 从“double”到“GLfloat”截断
+d:\work\cs\cg\project\engine\engine\game.cpp(564): warning C4305: “参数”: 从“double”到“GLfloat”截断
 d:\work\cs\cg\project\engine\engine\game.cpp(565): warning C4305: “参数”: 从“double”到“GLfloat”截断
 d:\work\cs\cg\project\engine\engine\game.cpp(566): warning C4305: “参数”: 从“double”到“GLfloat”截断
 d:\work\cs\cg\project\engine\engine\game.cpp(567): warning C4305: “参数”: 从“double”到“GLfloat”截断
 d:\work\cs\cg\project\engine\engine\game.cpp(568): warning C4305: “参数”: 从“double”到“GLfloat”截断
-d:\work\cs\cg\project\engine\engine\game.cpp(569): warning C4305: “参数”: 从“double”到“GLfloat”截断
 d:\work\cs\cg\project\engine\engine\game.cpp(571): warning C4305: “参数”: 从“double”到“GLfloat”截断
 d:\work\cs\cg\project\engine\engine\game.cpp(572): warning C4305: “参数”: 从“double”到“GLfloat”截断
 d:\work\cs\cg\project\engine\engine\game.cpp(573): warning C4305: “参数”: 从“double”到“GLfloat”截断
 d:\work\cs\cg\project\engine\engine\game.cpp(574): warning C4305: “参数”: 从“double”到“GLfloat”截断
-d:\work\cs\cg\project\engine\engine\game.cpp(576): warning C4305: “参数”: 从“double”到“GLfloat”截断
+d:\work\cs\cg\project\engine\engine\game.cpp(575): warning C4305: “参数”: 从“double”到“GLfloat”截断
+d:\work\cs\cg\project\engine\engine\game.cpp(577): warning C4305: “参数”: 从“double”到“GLfloat”截断
 d:\work\cs\cg\project\engine\engine\game.cpp(578): warning C4305: “参数”: 从“double”到“GLfloat”截断
+d:\work\cs\cg\project\engine\engine\game.cpp(579): warning C4305: “参数”: 从“double”到“GLfloat”截断
 d:\work\cs\cg\project\engine\engine\game.cpp(580): warning C4305: “参数”: 从“double”到“GLfloat”截断
-d:\work\cs\cg\project\engine\engine\game.cpp(584): warning C4305: “=”: 从“double”到“GLfloat”截断
-d:\work\cs\cg\project\engine\engine\game.cpp(736): warning C4244: “参数”: 从“GLint”转换到“float”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(736): warning C4244: “=”: 从“double”转换到“GLfloat”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(740): warning C4244: “参数”: 从“GLint”转换到“float”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(741): warning C4244: “参数”: 从“GLint”转换到“float”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(742): warning C4244: “参数”: 从“GLint”转换到“float”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(743): warning C4244: “参数”: 从“GLint”转换到“float”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(743): warning C4244: “=”: 从“double”转换到“GLfloat”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(825): warning C4305: “参数”: 从“double”到“GLfloat”截断
-d:\work\cs\cg\project\engine\engine\game.cpp(985): warning C4244: “初始化”: 从“GLdouble”转换到“float”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(986): warning C4244: “初始化”: 从“GLdouble”转换到“float”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(1018): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(1027): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(1031): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(1038): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(1054): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(1066): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(1074): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(1076): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(1103): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(1104): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(582): warning C4305: “参数”: 从“double”到“GLfloat”截断
+d:\work\cs\cg\project\engine\engine\game.cpp(584): warning C4305: “参数”: 从“double”到“GLfloat”截断
+d:\work\cs\cg\project\engine\engine\game.cpp(586): warning C4305: “参数”: 从“double”到“GLfloat”截断
+d:\work\cs\cg\project\engine\engine\game.cpp(590): warning C4305: “=”: 从“double”到“GLfloat”截断
+d:\work\cs\cg\project\engine\engine\game.cpp(752): warning C4244: “参数”: 从“GLint”转换到“float”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(752): warning C4244: “=”: 从“double”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(756): warning C4244: “参数”: 从“GLint”转换到“float”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(757): warning C4244: “参数”: 从“GLint”转换到“float”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(758): warning C4244: “参数”: 从“GLint”转换到“float”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(759): warning C4244: “参数”: 从“GLint”转换到“float”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(759): warning C4244: “=”: 从“double”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(798): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+d:\work\cs\cg\project\engine\engine\game.cpp(869): warning C4305: “参数”: 从“double”到“GLfloat”截断
+d:\work\cs\cg\project\engine\engine\game.cpp(1044): warning C4244: “初始化”: 从“GLdouble”转换到“float”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(1045): warning C4244: “初始化”: 从“GLdouble”转换到“float”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(1077): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(1086): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(1090): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(1095): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(1097): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
 d:\work\cs\cg\project\engine\engine\game.cpp(1105): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(1106): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(1107): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(1108): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(1109): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(1110): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(1111): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(1122): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(1113): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
 d:\work\cs\cg\project\engine\engine\game.cpp(1125): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
-d:\work\cs\cg\project\engine\engine\game.cpp(1134): warning C4244: “参数”: 从“double”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(1133): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(1135): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(1164): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(1165): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(1166): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(1167): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(1168): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(1169): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(1170): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(1171): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(1172): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(1183): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(1186): warning C4244: “参数”: 从“GLuint”转换到“GLfloat”，可能丢失数据
+d:\work\cs\cg\project\engine\engine\game.cpp(1201): warning C4244: “参数”: 从“double”转换到“GLfloat”，可能丢失数据
+LINK : warning LNK4098: 默认库“LIBCMT”与其他库的使用冲突；请使用 /NODEFAULTLIB:library
+sprite_renderer.obj : warning LNK4217: 本地定义的符号 ___glewActiveTexture 在函数 "struct glm::tmat4x4<float,0> __cdecl glm::lookAtRH<float,0>(struct glm::tvec3<float,0> const &,struct glm::tvec3<float,0> const &,struct glm::tvec3<float,0> const &)" (??$lookAtRH@M$0A@@glm@@YA?AU?$tmat4x4@M$0A@@0@ABU?$tvec3@M$0A@@0@00@Z) 中导入
+text.obj : warning LNK4049: 已导入本地定义的符号 ___glewActiveTexture
+bare_sprite_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewActiveTexture
+model_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewActiveTexture
+post_processor.obj : warning LNK4049: 已导入本地定义的符号 ___glewActiveTexture
+skybox_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewActiveTexture
+voxel.obj : warning LNK4217: 本地定义的符号 ___glewBindBuffer 在函数 "public: void __thiscall voxel::drawball(class Camera *,float,float,struct glm::tvec3<float,0>,struct glm::tvec3<float,0>,struct glm::tvec3<float,0>,struct glm::tvec3<float,0>,float)" (?drawball@voxel@@QAEXPAVCamera@@MMU?$tvec3@M$0A@@glm@@111M@Z) 中导入
+skybox_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewBindBuffer
+sprite_renderer.obj : warning LNK4217: 本地定义的符号 ___glewBindBuffer 在函数 "struct glm::tmat4x4<float,0> __cdecl glm::lookAtRH<float,0>(struct glm::tvec3<float,0> const &,struct glm::tvec3<float,0> const &,struct glm::tvec3<float,0> const &)" (??$lookAtRH@M$0A@@glm@@YA?AU?$tmat4x4@M$0A@@0@ABU?$tvec3@M$0A@@0@00@Z) 中导入
+square_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewBindBuffer
+text.obj : warning LNK4049: 已导入本地定义的符号 ___glewBindBuffer
+bare_sprite_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewBindBuffer
+LightRenderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewBindBuffer
+model_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewBindBuffer
+post_processor.obj : warning LNK4049: 已导入本地定义的符号 ___glewBindBuffer
+voxel.obj : warning LNK4217: 本地定义的符号 ___glewBufferData 在函数 "public: void __thiscall voxel::drawball(class Camera *,float,float,struct glm::tvec3<float,0>,struct glm::tvec3<float,0>,struct glm::tvec3<float,0>,struct glm::tvec3<float,0>,float)" (?drawball@voxel@@QAEXPAVCamera@@MMU?$tvec3@M$0A@@glm@@111M@Z) 中导入
+skybox_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewBufferData
+sprite_renderer.obj : warning LNK4217: 本地定义的符号 ___glewBufferData 在函数 "struct glm::tmat4x4<float,0> __cdecl glm::lookAtRH<float,0>(struct glm::tvec3<float,0> const &,struct glm::tvec3<float,0> const &,struct glm::tvec3<float,0> const &)" (??$lookAtRH@M$0A@@glm@@YA?AU?$tmat4x4@M$0A@@0@ABU?$tvec3@M$0A@@0@00@Z) 中导入
+square_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewBufferData
+text.obj : warning LNK4049: 已导入本地定义的符号 ___glewBufferData
+bare_sprite_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewBufferData
+LightRenderer.obj : warning LNK4217: 本地定义的符号 ___glewBufferData 在函数 "struct glm::tmat4x4<float,0> __cdecl glm::perspectiveRH<float>(float,float,float,float)" (??$perspectiveRH@M@glm@@YA?AU?$tmat4x4@M$0A@@0@MMMM@Z) 中导入
+model_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewBufferData
+post_processor.obj : warning LNK4049: 已导入本地定义的符号 ___glewBufferData
+voxel.obj : warning LNK4217: 本地定义的符号 ___glewGenBuffers 在函数 "public: void __thiscall voxel::drawball(class Camera *,float,float,struct glm::tvec3<float,0>,struct glm::tvec3<float,0>,struct glm::tvec3<float,0>,struct glm::tvec3<float,0>,float)" (?drawball@voxel@@QAEXPAVCamera@@MMU?$tvec3@M$0A@@glm@@111M@Z) 中导入
+skybox_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewGenBuffers
+sprite_renderer.obj : warning LNK4217: 本地定义的符号 ___glewGenBuffers 在函数 "struct glm::tmat4x4<float,0> __cdecl glm::lookAtRH<float,0>(struct glm::tvec3<float,0> const &,struct glm::tvec3<float,0> const &,struct glm::tvec3<float,0> const &)" (??$lookAtRH@M$0A@@glm@@YA?AU?$tmat4x4@M$0A@@0@ABU?$tvec3@M$0A@@0@00@Z) 中导入
+square_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewGenBuffers
+text.obj : warning LNK4049: 已导入本地定义的符号 ___glewGenBuffers
+bare_sprite_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewGenBuffers
+LightRenderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewGenBuffers
+model_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewGenBuffers
+post_processor.obj : warning LNK4049: 已导入本地定义的符号 ___glewGenBuffers
+voxel.obj : warning LNK4217: 本地定义的符号 ___glewEnableVertexAttribArray 在函数 "public: void __thiscall voxel::drawball(class Camera *,float,float,struct glm::tvec3<float,0>,struct glm::tvec3<float,0>,struct glm::tvec3<float,0>,struct glm::tvec3<float,0>,float)" (?drawball@voxel@@QAEXPAVCamera@@MMU?$tvec3@M$0A@@glm@@111M@Z) 中导入
+skybox_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewEnableVertexAttribArray
+sprite_renderer.obj : warning LNK4217: 本地定义的符号 ___glewEnableVertexAttribArray 在函数 "struct glm::tmat4x4<float,0> __cdecl glm::perspectiveRH<float>(float,float,float,float)" (??$perspectiveRH@M@glm@@YA?AU?$tmat4x4@M$0A@@0@MMMM@Z) 中导入
+square_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewEnableVertexAttribArray
+text.obj : warning LNK4049: 已导入本地定义的符号 ___glewEnableVertexAttribArray
+bare_sprite_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewEnableVertexAttribArray
+LightRenderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewEnableVertexAttribArray
+model_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewEnableVertexAttribArray
+post_processor.obj : warning LNK4049: 已导入本地定义的符号 ___glewEnableVertexAttribArray
+voxel.obj : warning LNK4217: 本地定义的符号 ___glewVertexAttribPointer 在函数 "public: float & __thiscall glm::tvec3<float,0>::operator[](int)" (??A?$tvec3@M$0A@@glm@@QAEAAMH@Z) 中导入
+skybox_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewVertexAttribPointer
+sprite_renderer.obj : warning LNK4217: 本地定义的符号 ___glewVertexAttribPointer 在函数 "struct glm::tmat4x4<float,0> __cdecl glm::perspectiveRH<float>(float,float,float,float)" (??$perspectiveRH@M@glm@@YA?AU?$tmat4x4@M$0A@@0@MMMM@Z) 中导入
+square_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewVertexAttribPointer
+text.obj : warning LNK4049: 已导入本地定义的符号 ___glewVertexAttribPointer
+bare_sprite_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewVertexAttribPointer
+LightRenderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewVertexAttribPointer
+model_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewVertexAttribPointer
+post_processor.obj : warning LNK4049: 已导入本地定义的符号 ___glewVertexAttribPointer
+voxel.obj : warning LNK4217: 本地定义的符号 ___glewBindVertexArray 在函数 "struct glm::tmat4x4<float,0> __cdecl glm::rotate<float,0>(struct glm::tmat4x4<float,0> const &,float,struct glm::tvec3<float,0> const &)" (??$rotate@M$0A@@glm@@YA?AU?$tmat4x4@M$0A@@0@ABU10@MABU?$tvec3@M$0A@@0@@Z) 中导入
+skybox_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewBindVertexArray
+sprite_renderer.obj : warning LNK4217: 本地定义的符号 ___glewBindVertexArray 在函数 "struct glm::tmat4x4<float,0> __cdecl glm::perspectiveRH<float>(float,float,float,float)" (??$perspectiveRH@M@glm@@YA?AU?$tmat4x4@M$0A@@0@MMMM@Z) 中导入
+square_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewBindVertexArray
+text.obj : warning LNK4049: 已导入本地定义的符号 ___glewBindVertexArray
+bare_sprite_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewBindVertexArray
+LightRenderer.obj : warning LNK4217: 本地定义的符号 ___glewBindVertexArray 在函数 "public: static float __cdecl std::numeric_limits<float>::epsilon(void)" (?epsilon@?$numeric_limits@M@std@@SAMXZ) 中导入
+model_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewBindVertexArray
+post_processor.obj : warning LNK4049: 已导入本地定义的符号 ___glewBindVertexArray
+voxel.obj : warning LNK4217: 本地定义的符号 ___glewGenVertexArrays 在函数 "struct glm::tmat4x4<float,0> __cdecl glm::scale<float,0>(struct glm::tmat4x4<float,0> const &,struct glm::tvec3<float,0> const &)" (??$scale@M$0A@@glm@@YA?AU?$tmat4x4@M$0A@@0@ABU10@ABU?$tvec3@M$0A@@0@@Z) 中导入
+skybox_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewGenVertexArrays
+sprite_renderer.obj : warning LNK4217: 本地定义的符号 ___glewGenVertexArrays 在函数 "public: static float __cdecl glm::detail::compute_dot<struct glm::tvec3,float,0,0>::call(struct glm::tvec3<float,0> const &,struct glm::tvec3<float,0> const &)" (?call@?$compute_dot@Utvec3@glm@@M$0A@$0A@@detail@glm@@SAMABU?$tvec3@M$0A@@3@0@Z) 中导入
+square_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewGenVertexArrays
+text.obj : warning LNK4049: 已导入本地定义的符号 ___glewGenVertexArrays
+bare_sprite_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewGenVertexArrays
+LightRenderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewGenVertexArrays
+model_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewGenVertexArrays
+post_processor.obj : warning LNK4049: 已导入本地定义的符号 ___glewGenVertexArrays
+model_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewGetUniformLocation
+post_processor.obj : warning LNK4049: 已导入本地定义的符号 ___glewGetUniformLocation
+model_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewUniform1i
+model_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewGenerateMipmap
+post_processor.obj : warning LNK4049: 已导入本地定义的符号 ___glewUniform1fv
+post_processor.obj : warning LNK4049: 已导入本地定义的符号 ___glewUniform1iv
+post_processor.obj : warning LNK4049: 已导入本地定义的符号 ___glewUniform2fv
+post_processor.obj : warning LNK4049: 已导入本地定义的符号 ___glewBindFramebuffer
+post_processor.obj : warning LNK4049: 已导入本地定义的符号 ___glewBindRenderbuffer
+post_processor.obj : warning LNK4049: 已导入本地定义的符号 ___glewCheckFramebufferStatus
+post_processor.obj : warning LNK4049: 已导入本地定义的符号 ___glewFramebufferRenderbuffer
+post_processor.obj : warning LNK4049: 已导入本地定义的符号 ___glewFramebufferTexture2D
+post_processor.obj : warning LNK4049: 已导入本地定义的符号 ___glewGenFramebuffers
+post_processor.obj : warning LNK4049: 已导入本地定义的符号 ___glewGenRenderbuffers
+post_processor.obj : warning LNK4049: 已导入本地定义的符号 ___glewRenderbufferStorage
+sprite_renderer.obj : warning LNK4049: 已导入本地定义的符号 ___glewDeleteVertexArrays
+text.obj : warning LNK4049: 已导入本地定义的符号 ___glewBufferSubData
+glew32s.lib(glew.obj) : warning LNK4099: 未找到 PDB“vc120.pdb”(使用“glew32s.lib(glew.obj)”或在“D:\work\cs\cg\project\engine\Debug\vc120.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+SOIL.lib(image_DXT.obj) : warning LNK4099: 未找到 PDB“SOIL.pdb”(使用“SOIL.lib(image_DXT.obj)”或在“D:\work\cs\cg\project\engine\Debug\SOIL.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+SOIL.lib(image_helper.obj) : warning LNK4099: 未找到 PDB“SOIL.pdb”(使用“SOIL.lib(image_helper.obj)”或在“D:\work\cs\cg\project\engine\Debug\SOIL.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+SOIL.lib(SOIL.obj) : warning LNK4099: 未找到 PDB“SOIL.pdb”(使用“SOIL.lib(SOIL.obj)”或在“D:\work\cs\cg\project\engine\Debug\SOIL.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+SOIL.lib(stb_image_aug.obj) : warning LNK4099: 未找到 PDB“SOIL.pdb”(使用“SOIL.lib(stb_image_aug.obj)”或在“D:\work\cs\cg\project\engine\Debug\SOIL.pdb”中寻找)；正在链接对象，如同没有调试信息一样
   engine.vcxproj -> D:\work\cs\cg\project\engine\Debug\engine.exe

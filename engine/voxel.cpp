@@ -384,6 +384,9 @@ lb:;
 
 void voxel::drawball(Camera * camera, GLfloat H, GLfloat W, glm::vec3 position, glm::vec3 size, glm::vec3 color, glm::vec3 rotate, GLfloat a)
 {
+	static int cnt = 0;
+	cnt+=6;
+	cnt %= 360;
 	this->shader.Use();
 	glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), W / H, 0.1f, 100.0f);
 	glm::mat4 view = camera->GetViewMatrix();
@@ -398,7 +401,7 @@ void voxel::drawball(Camera * camera, GLfloat H, GLfloat W, glm::vec3 position, 
 	model = glm::rotate(model, glm::radians(a), glm::normalize(rotate)); // Then rotate
 	this->shader.SetMatrix4("model", model);
 	this->shader.SetVector3f("lightColor", 1.0f, 1.0f, 1.0f);
-	this->shader.SetVector3f("lightPos", -2.5, 0.0, -1.5);
+	this->shader.SetVector3f("lightPos", -2.5*sin(glm::radians((float)cnt)), 0.0, -1.5*cos(glm::radians((float)cnt)));
 	this->shader.SetVector3f("viewPos", camera->Position);
 	this->shader.SetVector3f("color", color);
 	//this->shader.SetInteger("material.diffuse", 0);
